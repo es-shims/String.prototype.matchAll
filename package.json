@@ -2,8 +2,9 @@
 	"name": "string-matchall",
 	"version": "0.0.0",
 	"description": "Spec-compliant polyfill for String.prototype.matchAll ESnext proposal.",
+	"main": "index.js",
 	"scripts": {
-		"prepublish": "npm run build"
+		"test": "node test"
 	},
 	"repository": {
 		"type": "git",
@@ -25,6 +26,12 @@
 		"url": "https://github.com/ljharb/String.prototype.matchAll/issues"
 	},
 	"homepage": "https://github.com/ljharb/String.prototype.matchAll#readme",
+	"dependencies": {
+		"es-abstract": "^1.4.3",
+		"define-properties": "^1.1.2",
+		"function-bind": "^1.0.2",
+		"regexp.prototype.flags": "^1.1.1"
+	},
 	"devDependencies": {
 	}
 }
