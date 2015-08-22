@@ -4,7 +4,8 @@
 	"description": "Spec-compliant polyfill for String.prototype.matchAll ESnext proposal.",
 	"main": "index.js",
 	"scripts": {
-		"test": "npm run test:module && npm run test:shim",
+		"test": "es-shim-api --bound && npm run tests-only",
+		"tests-only": "npm run test:module && npm run test:shim",
 		"test:module": "node test",
 		"test:shim": "node test/shimmed"
 	},
@@ -39,6 +40,7 @@
 		"es5-shim": "^4.1.10",
 		"es6-shim": "^0.33.1",
 		"object.assign": "^4.0.1",
-		"tape": "^4.2.0"
+		"tape": "^4.2.0",
+		"@es-shims/api": "^1.0.0"
 	}
 }
