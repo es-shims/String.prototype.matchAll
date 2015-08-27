@@ -39,13 +39,13 @@
 	},
 	"devDependencies": {
 		"foreach": "^2.0.5",
-		"es5-shim": "^4.1.10",
-		"es6-shim": "^0.33.1",
-		"object.assign": "^4.0.1",
-		"tape": "^4.2.0",
+		"es5-shim": "^4.3.1",
+		"es6-shim": "^0.33.13",
+		"object.assign": "^4.0.3",
+		"tape": "^4.2.2",
 		"@es-shims/api": "^1.0.0",
-		"eslint": "^1.2.1",
-		"@ljharb/eslint-config": "^1.0.5",
-		"evalmd": "^0.0.15"
+		"eslint": "^1.10.3",
+		"@ljharb/eslint-config": "^1.6.0",
+		"evalmd": "^0.0.16"
 	}
 }
