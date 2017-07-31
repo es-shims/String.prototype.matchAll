@@ -28,7 +28,7 @@ module.exports = function getHiddenKeyManager() {
 					configurable: false,
 					enumerable: false,
 					value: value,
-					writable: false
+					writable: true
 				});
 			} else {
 				obj[key] = value;

@@ -8,8 +8,25 @@
 		"max-nested-callbacks": [2, 3],
 		"max-params": [2, 3],
 		"max-statements-per-line": [2, { "max": 2 }],
-		"max-statements": [2, 11],
-		"new-cap": [2, { "capIsNewExceptions": ["IsRegExp", "RequireObjectCoercible", "ToLength", "ToString"] }],
+		"max-statements": [2, 22],
+		"new-cap": [2, {
+			"capIsNewExceptions": [
+				"IsRegExp",
+				"RequireObjectCoercible",
+				"ToLength",
+				"ToString",
+				"GetMethod",
+				"Call",
+				"MatchAllIterator",
+				"SpeciesConstructor",
+				"Get",
+				"Set",
+				"Construct",
+				"Type",
+				"RegExpExec",
+				"CreateIterResultObject",
+			],
+		}],
 		"no-restricted-syntax": [2, "BreakStatement", "ContinueStatement", "DebuggerStatement", "LabeledStatement", "WithStatement"],
 	}
 }
