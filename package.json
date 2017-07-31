@@ -46,6 +46,7 @@
 		"evalmd": "0.0.16",
 		"foreach": "^2.0.5",
 		"object.assign": "^4.0.4",
+		"object.entries": "^1.0.4",
 		"tape": "^4.8.0"
 	}
 }

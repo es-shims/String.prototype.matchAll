@@ -4,6 +4,7 @@ var forEach = require('foreach');
 var has = Object.prototype.hasOwnProperty;
 var assign = require('object.assign');
 var define = require('define-properties');
+var entries = require('object.entries');
 
 var testResults = function (t, iterator, expectedResults) {
 	forEach(expectedResults, function (expected) {
@@ -13,6 +14,7 @@ var testResults = function (t, iterator, expectedResults) {
 			t.equal(result.value, null, 'result value is null');
 		} else {
 			t.equal(Array.isArray(result.value), true, 'result value is an array');
+			t.deepEqual(entries(result.value || {}), entries(expected.value || {}), 'result has the same entries');
 			t.deepEqual(result.value, expected.value, 'result value is expected value');
 		}
 	});
@@ -36,9 +38,9 @@ module.exports = function (matchAll, t) {
 		var strObj = { toString: function () { return str; } };
 		var regex = /[ac]/;
 		var expectedResults = [
-			{ value: assign(['a'], { input: str, index: 0 }), done: false },
-			{ value: assign(['a'], { input: str, index: 1 }), done: false },
-			{ value: assign(['c'], { input: str, index: 3 }), done: false },
+			{ value: assign(['a'], { index: 0, input: str }), done: false },
+			{ value: assign(['a'], { index: 1, input: str }), done: false },
+			{ value: assign(['c'], { index: 3, input: str }), done: false },
 			{ value: null, done: true }
 		];
 		testResults(st, matchAll(strObj, regex), expectedResults);
@@ -54,9 +56,9 @@ module.exports = function (matchAll, t) {
 			}
 			s2t.equal(regex.flags, undefined, 'regex has an undefined "flags" property');
 			var expectedResults = [
-				{ value: assign(['a'], { input: str, index: 0 }), done: false },
-				{ value: assign(['a'], { input: str, index: 1 }), done: false },
-				{ value: assign(['c'], { input: str, index: 3 }), done: false },
+				{ value: assign(['a'], { index: 0, input: str }), done: false },
+				{ value: assign(['a'], { index: 1, input: str }), done: false },
+				{ value: assign(['c'], { index: 3, input: str }), done: false },
 				{ value: null, done: true }
 			];
 			testResults(s2t, matchAll(str, regex), expectedResults);
@@ -69,9 +71,9 @@ module.exports = function (matchAll, t) {
 			define(regex, { flags: 'i' }, { flags: function () { return true; } });
 			s2t.equal(regex.flags, 'i');
 			var expectedResults = [
-				{ value: assign(['A'], { input: str, index: 0 }), done: false },
-				{ value: assign(['a'], { input: str, index: 1 }), done: false },
-				{ value: assign(['C'], { input: str, index: 3 }), done: false },
+				{ value: assign(['A'], { index: 0, input: str }), done: false },
+				{ value: assign(['a'], { index: 1, input: str }), done: false },
+				{ value: assign(['C'], { index: 3, input: str }), done: false },
 				{ value: null, done: true }
 			];
 			testResults(s2t, matchAll(str, regex), expectedResults);
@@ -82,9 +84,9 @@ module.exports = function (matchAll, t) {
 			var str = 'A\na\nb\nC';
 			var regex = /^[ac]/im;
 			var expectedResults = [
-				{ value: assign(['A'], { input: str, index: 0 }), done: false },
-				{ value: assign(['a'], { input: str, index: 2 }), done: false },
-				{ value: assign(['C'], { input: str, index: 6 }), done: false },
+				{ value: assign(['A'], { index: 0, input: str }), done: false },
+				{ value: assign(['a'], { index: 2, input: str }), done: false },
+				{ value: assign(['C'], { index: 6, input: str }), done: false },
 				{ value: null, done: true }
 			];
 			testResults(s2t, matchAll(str, regex), expectedResults);
@@ -101,9 +103,9 @@ module.exports = function (matchAll, t) {
 			st.fail('iterator has enumerable properties: ' + key);
 		}
 		var expectedResults = [
-			{ value: assign(['a'], { input: str, index: 0 }), done: false },
-			{ value: assign(['a'], { input: str, index: 1 }), done: false },
-			{ value: assign(['c'], { input: str, index: 3 }), done: false },
+			{ value: assign(['a'], { index: 0, input: str }), done: false },
+			{ value: assign(['a'], { index: 1, input: str }), done: false },
+			{ value: assign(['c'], { index: 3, input: str }), done: false },
 			{ value: null, done: true }
 		];
 		testResults(st, iterator, expectedResults);
