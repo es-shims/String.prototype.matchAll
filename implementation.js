@@ -20,7 +20,7 @@ define(RegExpStringIterator.prototype, {
 		var regexp = hidden.get(this, 'regexp');
 		var string = hidden.get(this, 'string');
 		var match = regexp.exec(string);
-		return { value: match, done: match === null };
+		return { value: match, done: match === null }; // eslint-disable-line sort-keys
 	}
 });
 if (typeof Symbol === 'function' && Symbol.toStringTag) {

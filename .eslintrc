@@ -4,8 +4,11 @@
 	"extends": "@ljharb",
 
 	"rules": {
+		"func-name-matching": 0,
 		"max-nested-callbacks": [2, 3],
 		"max-params": [2, 3],
+		"max-statements-per-line": [2, { "max": 2 }],
+		"max-statements": [2, 11],
 		"new-cap": [2, { "capIsNewExceptions": ["IsRegExp", "RequireObjectCoercible", "ToLength", "ToString"] }],
 		"no-restricted-syntax": [2, "BreakStatement", "ContinueStatement", "DebuggerStatement", "LabeledStatement", "WithStatement"],
 	}

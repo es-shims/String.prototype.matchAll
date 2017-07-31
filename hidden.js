@@ -15,24 +15,24 @@ module.exports = function getHiddenKeyManager() {
 		return '___ ' + prop + ' ___';
 	};
 	return {
-		set: function set(obj, prop, value) {
-			var key = makeKey(prop);
-			if (define.supportsDescriptors) {
-				Object.defineProperty(obj, key, {
-					value: value,
-					configurable: false,
-					enumerable: false,
-					writable: false
-				});
-			} else {
-				obj[key] = value;
-			}
-		},
 		get: function get(obj, prop) {
 			return obj[makeKey(prop)];
 		},
 		has: function has(obj, prop) {
 			return makeKey(prop) in obj;
+		},
+		set: function set(obj, prop, value) {
+			var key = makeKey(prop);
+			if (define.supportsDescriptors) {
+				Object.defineProperty(obj, key, {
+					configurable: false,
+					enumerable: false,
+					value: value,
+					writable: false
+				});
+			} else {
+				obj[key] = value;
+			}
 		}
 	};
 };

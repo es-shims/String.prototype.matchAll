@@ -22,7 +22,11 @@ module.exports = function (matchAll, t) {
 	t.test('exceptions', function (st) {
 		var notRegexes = [null, undefined, '', NaN, 42, new Date(), {}, []];
 		forEach(notRegexes, function (notRegex) {
-			st.throws(function () { matchAll(notRegex); }, TypeError, notRegex + ' (' + Object.prototype.toString.call(notRegex).slice(8, -1) + ') is not a regex');
+			st['throws'](
+				function () { matchAll(notRegex); },
+				TypeError,
+				notRegex + ' (' + Object.prototype.toString.call(notRegex).slice(8, -1) + ') is not a regex'
+			);
 		});
 		st.end();
 	});
@@ -110,7 +114,8 @@ module.exports = function (matchAll, t) {
 		var str = 'aabc';
 		var iterator = matchAll(str, /[ac]/);
 		var iteratorGlobal = matchAll(str, /[ac]/g);
-		var result = {}, globalResult = {};
+		var result = {};
+		var globalResult = {};
 		st.plan(4);
 		while (!result.done && !globalResult.done) {
 			result = iterator.next();
