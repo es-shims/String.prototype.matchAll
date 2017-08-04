@@ -20,7 +20,7 @@ var testResults = function (t, iterator, expectedResults) {
 	});
 };
 
-module.exports = function (matchAll, t) {
+module.exports = function (matchAll, regexMatchAll, t) {
 	t.test('non-regexes', function (st) {
 		var notRegexes = [null, undefined, NaN, 42, new Date(), {}, []];
 		var str = 'abc';
