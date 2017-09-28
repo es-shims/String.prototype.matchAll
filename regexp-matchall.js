@@ -1,11 +1,10 @@
 'use strict';
 
-var hasSymbols = require('has-symbols')();
 var ES = require('es-abstract');
 var MatchAllIterator = require('./helpers/MatchAllIterator');
 
 var regexMatchAll = function symbolMatchAll(string) {
-	var R = this;
+	var R = this; // eslint-disable-line no-invalid-this
 	if (!ES.IsRegExp(R)) {
 		throw new TypeError('"this" value must be a RegExp');
 	}

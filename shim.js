@@ -13,7 +13,8 @@ module.exports = function shimMatchAll() {
 		{ matchAll: function () { return String.prototype.matchAll !== polyfill; } }
 	);
 	if (hasSymbols) {
-		var symbol = Symbol.matchAll || (Symbol.for ? Symbol.for('Symbol.matchAll') : Symbol('Symbol.matchAll'));
+		// eslint-disable-next-line no-restricted-properties
+		var symbol = Symbol.matchAll || (Symbol['for'] ? Symbol['for']('Symbol.matchAll') : Symbol('Symbol.matchAll'));
 		define(
 			Symbol,
 			{ matchAll: symbol },
@@ -23,7 +24,7 @@ module.exports = function shimMatchAll() {
 		var func = {};
 		func[symbol] = RegExp.prototype[symbol] || regexMatchAll;
 		var predicate = {};
-		predicate[symbol] = function () { return RegExp.prototype[symbol] !== x; };
+		predicate[symbol] = function () { return RegExp.prototype[symbol] !== regexMatchAll; };
 		define(RegExp.prototype, func, predicate);
 	}
 	return polyfill;

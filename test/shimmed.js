@@ -27,20 +27,20 @@ test('shimmed', function (t) {
 	});
 
 	t.test('enumerability', { skip: !defineProperties.supportsDescriptors }, function (et) {
-			et.equal(false, isEnumerable.call(String.prototype, 'matchAll'), 'String#matchAll is not enumerable');
+		et.equal(false, isEnumerable.call(String.prototype, 'matchAll'), 'String#matchAll is not enumerable');
 		et.end();
 	});
 
 	t.test('Symbol.matchAll', { skip: !hasSymbols }, function (st) {
 		st.equal(typeof Symbol.matchAll, 'symbol', 'Symbol.matchAll is a symbol');
 
-		st.test('Function name', { skip: !functionsHaveNames }, function (st) {
+		st.test('Function name', { skip: !functionsHaveNames }, function (s2t) {
 			if (functionNamesConfigurable) {
-				t.equal(RegExp.prototype[Symbol.matchAll].name, '[Symbol.matchAll]', 'RegExp.prototype[Symbol.matchAll] has name "[Symbol.matchAll]"');
+				s2t.equal(RegExp.prototype[Symbol.matchAll].name, '[Symbol.matchAll]', 'RegExp.prototype[Symbol.matchAll] has name "[Symbol.matchAll]"');
 			} else {
-				t.equal(RegExp.prototype[Symbol.matchAll].name, 'symbolMatchAll', 'RegExp.prototype[Symbol.matchAll] has best guess name "symbolMatchAll"');
+				s2t.equal(RegExp.prototype[Symbol.matchAll].name, 'symbolMatchAll', 'RegExp.prototype[Symbol.matchAll] has best guess name "symbolMatchAll"');
 			}
-			st.end();
+			s2t.end();
 		});
 
 		st.end();

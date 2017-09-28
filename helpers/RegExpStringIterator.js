@@ -53,7 +53,7 @@ define(RegExpStringIterator.prototype, {
 });
 if (hasSymbols && Symbol.toStringTag) {
 	RegExpStringIterator.prototype[Symbol.toStringTag] = 'RegExp String Iterator';
-    RegExpStringIterator.prototype[Symbol.iterator] = function () { return this; };
+	RegExpStringIterator.prototype[Symbol.iterator] = function () { return this; };
 }
 
 module.exports = RegExpStringIterator;
