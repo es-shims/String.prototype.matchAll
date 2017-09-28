@@ -33,8 +33,8 @@
 	"homepage": "https://github.com/ljharb/String.prototype.matchAll#readme",
 	"dependencies": {
 		"define-properties": "^1.1.2",
-		"es-abstract": "^1.8.0",
-		"function-bind": "^1.1.0",
+		"es-abstract": "^1.8.2",
+		"function-bind": "^1.1.1",
 		"has-symbols": "^1.0.0",
 		"regexp.prototype.flags": "^1.1.1"
 	},
