@@ -7,15 +7,15 @@ var define = require('define-properties');
 var entries = require('object.entries');
 
 var testResults = function (t, iterator, expectedResults) {
-	forEach(expectedResults, function (expected) {
+	forEach(expectedResults, function (expected, index) {
 		var result = iterator.next();
-		t.equal(result.done, expected.done, 'result is ' + (expected.done ? '' : 'not ') + 'done');
-		if (result.done) {
-			t.equal(result.value, null, 'result value is null');
+		t.equal(result.done, expected.done, 'result ' + (index + 1) + ' is ' + (expected.done ? '' : 'not ') + 'done');
+		if (expected.done) {
+			t.equal(result.value, null, 'result ' + (index + 1) + ' value is null');
 		} else {
-			t.equal(Array.isArray(result.value), true, 'result value is an array');
-			t.deepEqual(entries(result.value || {}), entries(expected.value || {}), 'result has the same entries');
-			t.deepEqual(result.value, expected.value, 'result value is expected value');
+			t.equal(Array.isArray(result.value), true, 'result ' + (index + 1) + ' value is an array');
+			t.deepEqual(entries(result.value || {}), entries(expected.value || {}), 'result ' + (index + 1) + ' has the same entries');
+			t.deepEqual(result.value, expected.value, 'result ' + (index + 1) + ' value is expected value');
 		}
 	});
 };
