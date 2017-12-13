@@ -25,7 +25,9 @@ module.exports = function MatchAllIterator(R, O) {
 	} else {
 		matcher = new C(R, actualFlags); // ES.Construct(C, [R, actualFlags]);
 	}
+	var global = ES.ToBoolean(ES.Get(R, 'global'));
+	var fullUnicode = ES.ToBoolean(ES.Get(R, 'unicode'));
 	var lastIndex = ES.ToLength(ES.Get(R, 'lastIndex'));
 	ES.Set(matcher, 'lastIndex', lastIndex, true);
-	return new RegExpStringIterator(matcher, S);
+	return new RegExpStringIterator(matcher, S, global, fullUnicode);
 };
