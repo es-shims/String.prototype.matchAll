@@ -72,18 +72,14 @@ module.exports = function (matchAll, regexMatchAll, t) {
 		st.test('with a static flags property', function (s2t) {
 			var str = 'AaBC';
 			var regex = /[ac]/;
-			define(
-				regex,
-				{
-					flags: 'ig',
-					global: true
-				},
-				{
-					flags: function () { return true; },
-					global: function () { return true; }
-				});
+			define(regex, { flags: 'ig' }, { flags: function () { return true; } });
+			try {
+				define(regex, { global: true }, { global: function () { return true; } });
+				s2t.equal(regex.global, true);
+			} catch (e) {
+				// in node < 6, `global` is not configurable on regexes.
+			}
 			s2t.equal(regex.flags, 'ig');
-			s2t.equal(regex.global, true);
 			var expectedResults = [
 				{ value: assign(['A'], { index: 0, input: str }), done: false },
 				{ value: assign(['a'], { index: 1, input: str }), done: false },
