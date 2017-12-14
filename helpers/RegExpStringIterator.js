@@ -24,7 +24,6 @@ var RegExpStringIterator = function RegExpStringIterator(R, S, global, fullUnico
 	hidden.set(this, '[[IteratedString]]', S);
 	hidden.set(this, '[[Global]]', global);
 	hidden.set(this, '[[FullUnicode]]', fullUnicode);
-	hidden.set(this, '[[PreviousIndex]]', -1);
 	hidden.set(this, '[[Done]]', false);
 };
 
@@ -61,18 +60,7 @@ define(RegExpStringIterator.prototype, {
 			}
 			return ES.CreateIterResultObject(match, false);
 		}
-
-		var previousIndex = hidden.get(this, '[[PreviousIndex]]');
-		if (ES.Type(previousIndex) !== 'Number') {
-			throw new TypeError('Assertion failed: [[PreviousIndex]] was not a number');
-		}
-		var index = ES.ToLength(ES.Get(match, 'index'));
-		if (index === previousIndex) {
-			index = ES.AdvanceStringIndex(S, previousIndex, fullUnicode);
-			hidden.set(this, '[[Done]]', true);
-			return ES.CreateIterResultObject(null, true);
-		}
-		hidden.set(this, '[[PreviousIndex]]', index);
+		hidden.set(this, '[[Done]]', true);
 		return ES.CreateIterResultObject(match, false);
 	}
 });
