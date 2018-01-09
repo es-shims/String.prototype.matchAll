@@ -43,13 +43,13 @@
 	"devDependencies": {
 		"@es-shims/api": "^2.1.2",
 		"@ljharb/eslint-config": "^12.2.1",
-		"es5-shim": "^4.5.9",
+		"es5-shim": "^4.5.10",
 		"es6-shim": "^0.35.3",
-		"eslint": "^4.13.1",
+		"eslint": "^4.15.0",
 		"evalmd": "^0.0.17",
 		"foreach": "^2.0.5",
 		"nsp": "^3.1.0",
-		"object.assign": "^4.0.4",
+		"object.assign": "^4.1.0",
 		"object.entries": "^1.0.4",
 		"tape": "^4.8.0"
 	}
