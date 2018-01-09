@@ -6,6 +6,8 @@
 	"scripts": {
 		"pretest": "evalmd *.md && npm run lint",
 		"test": "es-shim-api --bound && npm run tests-only",
+		"posttest": "npm run security",
+		"security": "nsp check",
 		"tests-only": "npm run test:module && npm run test:shim",
 		"test:module": "node test",
 		"test:shim": "node test/shimmed",
@@ -46,6 +48,7 @@
 		"eslint": "^4.13.1",
 		"evalmd": "^0.0.17",
 		"foreach": "^2.0.5",
+		"nsp": "^3.1.0",
 		"object.assign": "^4.0.4",
 		"object.entries": "^1.0.4",
 		"tape": "^4.8.0"
