@@ -13,6 +13,7 @@
 			"capIsNewExceptions": [
 				"IsRegExp",
 				"RequireObjectCoercible",
+				"ToBoolean",
 				"ToLength",
 				"ToString",
 				"GetMethod",
@@ -25,6 +26,7 @@
 				"Type",
 				"RegExpExec",
 				"CreateIterResultObject",
+				"AdvanceStringIndex",
 			],
 		}],
 		"no-restricted-syntax": [2, "BreakStatement", "ContinueStatement", "DebuggerStatement", "LabeledStatement", "WithStatement"],

@@ -6,6 +6,8 @@ var assign = require('object.assign');
 var define = require('define-properties');
 var entries = require('object.entries');
 
+var hasSticky = typeof (/a/).sticky === 'boolean';
+
 var testResults = function (t, iterator, expectedResults) {
 	forEach(expectedResults, function (expected, index) {
 		var result = iterator.next();
@@ -130,6 +132,42 @@ module.exports = function (matchAll, regexMatchAll, t) {
 			{ value: null, done: true }
 		];
 		testResults(st, iterator, expectedResults);
+		st.end();
+	});
+
+	t.test('zero-width matches', function (st) {
+		var str = 'abcde';
+
+		st.test('global', function (s2t) {
+			var expectedResults = [
+				{ value: assign([''], { index: 1, input: str }), done: false },
+				{ value: assign([''], { index: 2, input: str }), done: false },
+				{ value: assign([''], { index: 3, input: str }), done: false },
+				{ value: assign([''], { index: 4, input: str }), done: false },
+				{ value: null, done: true }
+			];
+			testResults(s2t, matchAll(str, /\B/g), expectedResults);
+			s2t.end();
+		});
+
+		st.test('sticky', { skip: !hasSticky }, function (s2t) {
+			var expectedResults = [
+				{ value: null, done: true }
+			];
+			/* eslint no-invalid-regexp: [2, { "allowConstructorFlags": ["y"] }] */
+			testResults(s2t, matchAll(str, new RegExp('\\B', 'y')), expectedResults);
+			s2t.end();
+		});
+
+		st.test('unflagged', function (s2t) {
+			var expectedResults = [
+				{ value: assign([''], { index: 1, input: str }), done: false },
+				{ value: null, done: true }
+			];
+			testResults(s2t, matchAll(str, /\B/), expectedResults);
+			s2t.end();
+		});
+
 		st.end();
 	});
 };
