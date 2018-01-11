@@ -79,7 +79,8 @@ module.exports = function (matchAll, regexMatchAll, t) {
 				define(regex, { global: true }, { global: function () { return true; } });
 				s2t.equal(regex.global, true);
 			} catch (e) {
-				// in node < 6, `global` is not configurable on regexes.
+				s2t.comment('# SKIP in node < 6, `global` is not configurable on regexes');
+				return s2t.end();
 			}
 			s2t.equal(regex.flags, 'ig');
 			var expectedResults = [
@@ -89,7 +90,7 @@ module.exports = function (matchAll, regexMatchAll, t) {
 				{ value: null, done: true }
 			];
 			testResults(s2t, matchAll(str, regex), expectedResults);
-			s2t.end();
+			return s2t.end();
 		});
 
 		st.test('respects flags', function (s2t) {
