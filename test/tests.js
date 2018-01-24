@@ -5,37 +5,77 @@ var has = Object.prototype.hasOwnProperty;
 var assign = require('object.assign');
 var define = require('define-properties');
 var entries = require('object.entries');
+var inspect = require('object-inspect');
 
 var hasSticky = typeof (/a/).sticky === 'boolean';
 
-var testResults = function (t, iterator, expectedResults) {
-	forEach(expectedResults, function (expected, index) {
-		var result = iterator.next();
-		t.equal(result.done, expected.done, 'result ' + (index + 1) + ' is ' + (expected.done ? '' : 'not ') + 'done');
-		if (expected.done) {
-			t.equal(result.value, null, 'result ' + (index + 1) + ' value is null');
-		} else {
-			t.equal(Array.isArray(result.value), true, 'result ' + (index + 1) + ' value is an array');
-			t.deepEqual(entries(result.value || {}), entries(expected.value || {}), 'result ' + (index + 1) + ' has the same entries');
-			t.deepEqual(result.value, expected.value, 'result ' + (index + 1) + ' value is expected value');
-		}
+var arraySpread = function arraySpread(iterator) {
+	if (Array.isArray(iterator)) { return iterator; }
+	var result;
+	var values = [];
+	do {
+		result = iterator.next();
+		values.push(result);
+	} while (!result.done);
+	return values;
+};
+
+var testResults = function (t, iterator, expectedResults, item) {
+	var prefix = arguments.length > 3 ? inspect(item) + ': ' : '';
+	var results = arraySpread(iterator);
+	var expecteds = arraySpread(expectedResults);
+	t.test(prefix + 'actual vs expected result lengths', function (st) {
+		st.equal(results.length, expecteds.length, 'actual and expected result counts are the same');
+		st.end();
+	});
+	t.test(prefix + 'actual vs expected results', { skip: results.length !== expecteds.length }, function (st) {
+		forEach(expecteds, function (expected, index) {
+			var result = results.shift();
+			st.equal(result.done, expected.done, 'result ' + (index + 1) + ' is ' + (expected.done ? '' : 'not ') + 'done');
+			st.test('result ' + (index + 1), { skip: result.done !== expected.done }, function (s2t) {
+				if (expected.done) {
+					s2t.equal(result.value, null, 'result ' + (index + 1) + ' value is null');
+				} else {
+					s2t.equal(Array.isArray(result.value), true, 'result ' + (index + 1) + ' value is an array');
+					s2t.deepEqual(entries(result.value || {}), entries(expected.value || {}), 'result ' + (index + 1) + ' has the same entries');
+					s2t.deepEqual(result.value, expected.value, 'result ' + (index + 1) + ' value is expected value');
+				}
+				s2t.end();
+			});
+		});
 	});
 };
 
 module.exports = function (matchAll, regexMatchAll, t) {
 	t.test('non-regexes', function (st) {
-		var notRegexes = [null, undefined, NaN, 42, new Date(), {}, []];
+		var notRegexes = [
+			[null, [{ value: null, done: true }]],
+			[undefined, [
+				{ value: assign([''], { index: 0, input: 'abc' }), done: false },
+				{ value: null, done: true }
+			]],
+			[NaN, [{ value: null, done: true }]],
+			[42, [{ value: null, done: true }]],
+			[new Date(), [{ value: null, done: true }]],
+			[{}, [
+				{ value: assign(['b'], { index: 1, input: 'abc' }), done: false },
+				{ value: null, done: true }
+			]],
+			[[], [
+				{ value: assign([''], { index: 0, input: 'abc' }), done: false },
+				{ value: null, done: true }
+			]]
+		];
 		var str = 'abc';
 		forEach(notRegexes, function (notRegex) {
-			testResults(st, matchAll(str, notRegex), matchAll(str, String(notRegex)));
+			testResults(st, matchAll(str, notRegex[0]), notRegex[1], notRegex[0]);
 		});
 		st.end();
 	});
 
 	t.test('passing a string instead of a regex', function (st) {
 		var str = 'aabcaba';
-		var regex = /a/;
-		testResults(st, matchAll(str, regex), matchAll(str, regex.source));
+		testResults(st, matchAll(str, 'a'), matchAll(str, /a/));
 		st.end();
 	});
 
