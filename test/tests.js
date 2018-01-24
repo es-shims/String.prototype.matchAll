@@ -52,6 +52,9 @@ module.exports = function (matchAll, regexMatchAll, t) {
 			[null, [{ value: null, done: true }]],
 			[undefined, [
 				{ value: assign([''], { index: 0, input: 'abc' }), done: false },
+				{ value: assign([''], { index: 1, input: 'abc' }), done: false },
+				{ value: assign([''], { index: 2, input: 'abc' }), done: false },
+				{ value: assign([''], { index: 3, input: 'abc' }), done: false },
 				{ value: null, done: true }
 			]],
 			[NaN, [{ value: null, done: true }]],
@@ -59,10 +62,14 @@ module.exports = function (matchAll, regexMatchAll, t) {
 			[new Date(), [{ value: null, done: true }]],
 			[{}, [
 				{ value: assign(['b'], { index: 1, input: 'abc' }), done: false },
+				{ value: assign(['c'], { index: 2, input: 'abc' }), done: false },
 				{ value: null, done: true }
 			]],
 			[[], [
 				{ value: assign([''], { index: 0, input: 'abc' }), done: false },
+				{ value: assign([''], { index: 1, input: 'abc' }), done: false },
+				{ value: assign([''], { index: 2, input: 'abc' }), done: false },
+				{ value: assign([''], { index: 3, input: 'abc' }), done: false },
 				{ value: null, done: true }
 			]]
 		];
@@ -75,7 +82,7 @@ module.exports = function (matchAll, regexMatchAll, t) {
 
 	t.test('passing a string instead of a regex', function (st) {
 		var str = 'aabcaba';
-		testResults(st, matchAll(str, 'a'), matchAll(str, /a/));
+		testResults(st, matchAll(str, 'a'), matchAll(str, /a/g));
 		st.end();
 	});
 

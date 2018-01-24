@@ -13,7 +13,7 @@ module.exports = function matchAll(regexp) {
 	if (ES.IsRegExp(regexp)) {
 		R = regexp;
 	} else {
-		R = new OrigRegExp(regexp, void 0);
+		R = new OrigRegExp(regexp, 'g');
 	}
 	var matcher;
 	if (hasSymbols && typeof Symbol.matchAll === 'symbol') {
