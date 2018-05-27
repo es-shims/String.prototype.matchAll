@@ -8,6 +8,11 @@ var entries = require('object.entries');
 var inspect = require('object-inspect');
 
 var hasSticky = typeof (/a/).sticky === 'boolean';
+var hasGroups = 'groups' in (/a/).exec('a');
+
+var groups = function groups(matchObject) {
+	return hasGroups ? assign(matchObject, { groups: matchObject.groups }, matchObject) : matchObject;
+};
 
 var arraySpread = function arraySpread(iterator) {
 	if (Array.isArray(iterator)) { return iterator; }
@@ -51,25 +56,25 @@ module.exports = function (matchAll, regexMatchAll, t) {
 		var notRegexes = [
 			[null, [{ value: null, done: true }]],
 			[undefined, [
-				{ value: assign([''], { index: 0, input: 'abc' }), done: false },
-				{ value: assign([''], { index: 1, input: 'abc' }), done: false },
-				{ value: assign([''], { index: 2, input: 'abc' }), done: false },
-				{ value: assign([''], { index: 3, input: 'abc' }), done: false },
+				{ value: assign([''], groups({ index: 0, input: 'abc' })), done: false },
+				{ value: assign([''], groups({ index: 1, input: 'abc' })), done: false },
+				{ value: assign([''], groups({ index: 2, input: 'abc' })), done: false },
+				{ value: assign([''], groups({ index: 3, input: 'abc' })), done: false },
 				{ value: null, done: true }
 			]],
 			[NaN, [{ value: null, done: true }]],
 			[42, [{ value: null, done: true }]],
 			[new Date(), [{ value: null, done: true }]],
 			[{}, [
-				{ value: assign(['b'], { index: 1, input: 'abc' }), done: false },
-				{ value: assign(['c'], { index: 2, input: 'abc' }), done: false },
+				{ value: assign(['b'], groups({ index: 1, input: 'abc' })), done: false },
+				{ value: assign(['c'], groups({ index: 2, input: 'abc' })), done: false },
 				{ value: null, done: true }
 			]],
 			[[], [
-				{ value: assign([''], { index: 0, input: 'abc' }), done: false },
-				{ value: assign([''], { index: 1, input: 'abc' }), done: false },
-				{ value: assign([''], { index: 2, input: 'abc' }), done: false },
-				{ value: assign([''], { index: 3, input: 'abc' }), done: false },
+				{ value: assign([''], groups({ index: 0, input: 'abc' })), done: false },
+				{ value: assign([''], groups({ index: 1, input: 'abc' })), done: false },
+				{ value: assign([''], groups({ index: 2, input: 'abc' })), done: false },
+				{ value: assign([''], groups({ index: 3, input: 'abc' })), done: false },
 				{ value: null, done: true }
 			]]
 		];
@@ -91,9 +96,9 @@ module.exports = function (matchAll, regexMatchAll, t) {
 		var strObj = { toString: function () { return str; } };
 		var regex = /[ac]/g;
 		var expectedResults = [
-			{ value: assign(['a'], { index: 0, input: str }), done: false },
-			{ value: assign(['a'], { index: 1, input: str }), done: false },
-			{ value: assign(['c'], { index: 3, input: str }), done: false },
+			{ value: assign(['a'], groups({ index: 0, input: str })), done: false },
+			{ value: assign(['a'], groups({ index: 1, input: str })), done: false },
+			{ value: assign(['c'], groups({ index: 3, input: str })), done: false },
 			{ value: null, done: true }
 		];
 		testResults(st, matchAll(strObj, regex), expectedResults);
@@ -109,9 +114,9 @@ module.exports = function (matchAll, regexMatchAll, t) {
 			}
 			s2t.equal(regex.flags, undefined, 'regex has an undefined "flags" property');
 			var expectedResults = [
-				{ value: assign(['a'], { index: 0, input: str }), done: false },
-				{ value: assign(['a'], { index: 1, input: str }), done: false },
-				{ value: assign(['c'], { index: 3, input: str }), done: false },
+				{ value: assign(['a'], groups({ index: 0, input: str })), done: false },
+				{ value: assign(['a'], groups({ index: 1, input: str })), done: false },
+				{ value: assign(['c'], groups({ index: 3, input: str })), done: false },
 				{ value: null, done: true }
 			];
 			testResults(s2t, matchAll(str, regex), expectedResults);
@@ -131,9 +136,9 @@ module.exports = function (matchAll, regexMatchAll, t) {
 			}
 			s2t.equal(regex.flags, 'ig');
 			var expectedResults = [
-				{ value: assign(['A'], { index: 0, input: str }), done: false },
-				{ value: assign(['a'], { index: 1, input: str }), done: false },
-				{ value: assign(['C'], { index: 3, input: str }), done: false },
+				{ value: assign(['A'], groups({ index: 0, input: str })), done: false },
+				{ value: assign(['a'], groups({ index: 1, input: str })), done: false },
+				{ value: assign(['C'], groups({ index: 3, input: str })), done: false },
 				{ value: null, done: true }
 			];
 			testResults(s2t, matchAll(str, regex), expectedResults);
@@ -144,9 +149,9 @@ module.exports = function (matchAll, regexMatchAll, t) {
 			var str = 'A\na\nb\nC';
 			var regex = /^[ac]/img;
 			var expectedResults = [
-				{ value: assign(['A'], { index: 0, input: str }), done: false },
-				{ value: assign(['a'], { index: 2, input: str }), done: false },
-				{ value: assign(['C'], { index: 6, input: str }), done: false },
+				{ value: assign(['A'], groups({ index: 0, input: str })), done: false },
+				{ value: assign(['a'], groups({ index: 2, input: str })), done: false },
+				{ value: assign(['C'], groups({ index: 6, input: str })), done: false },
 				{ value: null, done: true }
 			];
 			testResults(s2t, matchAll(str, regex), expectedResults);
@@ -157,7 +162,7 @@ module.exports = function (matchAll, regexMatchAll, t) {
 			var str = 'AaBbCc';
 			var regex = /[bc]/i;
 			var expectedResults = [
-				{ value: assign(['B'], { index: 2, input: str }), done: false },
+				{ value: assign(['B'], groups({ index: 2, input: str })), done: false },
 				{ value: null, done: true }
 			];
 			testResults(s2t, matchAll(str, regex), expectedResults);
@@ -174,9 +179,9 @@ module.exports = function (matchAll, regexMatchAll, t) {
 			st.fail('iterator has enumerable properties: ' + key);
 		}
 		var expectedResults = [
-			{ value: assign(['a'], { index: 0, input: str }), done: false },
-			{ value: assign(['a'], { index: 1, input: str }), done: false },
-			{ value: assign(['c'], { index: 3, input: str }), done: false },
+			{ value: assign(['a'], groups({ index: 0, input: str })), done: false },
+			{ value: assign(['a'], groups({ index: 1, input: str })), done: false },
+			{ value: assign(['c'], groups({ index: 3, input: str })), done: false },
 			{ value: null, done: true }
 		];
 		testResults(st, iterator, expectedResults);
@@ -188,10 +193,10 @@ module.exports = function (matchAll, regexMatchAll, t) {
 
 		st.test('global', function (s2t) {
 			var expectedResults = [
-				{ value: assign([''], { index: 1, input: str }), done: false },
-				{ value: assign([''], { index: 2, input: str }), done: false },
-				{ value: assign([''], { index: 3, input: str }), done: false },
-				{ value: assign([''], { index: 4, input: str }), done: false },
+				{ value: assign([''], groups({ index: 1, input: str })), done: false },
+				{ value: assign([''], groups({ index: 2, input: str })), done: false },
+				{ value: assign([''], groups({ index: 3, input: str })), done: false },
+				{ value: assign([''], groups({ index: 4, input: str })), done: false },
 				{ value: null, done: true }
 			];
 			testResults(s2t, matchAll(str, /\B/g), expectedResults);
@@ -209,7 +214,7 @@ module.exports = function (matchAll, regexMatchAll, t) {
 
 		st.test('unflagged', function (s2t) {
 			var expectedResults = [
-				{ value: assign([''], { index: 1, input: str }), done: false },
+				{ value: assign([''], groups({ index: 1, input: str })), done: false },
 				{ value: null, done: true }
 			];
 			testResults(s2t, matchAll(str, /\B/), expectedResults);
