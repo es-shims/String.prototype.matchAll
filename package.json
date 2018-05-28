@@ -4,13 +4,14 @@
 	"description": "Spec-compliant polyfill for String.prototype.matchAll ESnext proposal.",
 	"main": "index.js",
 	"scripts": {
-		"pretest": "evalmd *.md && npm run lint",
+		"pretest": "npm run lint",
 		"test": "es-shim-api --bound && npm run tests-only",
 		"posttest": "npm run security",
 		"security": "nsp check",
 		"tests-only": "npm run test:module && npm run test:shim",
 		"test:module": "node test",
 		"test:shim": "node test/shimmed",
+        "prelint": "evalmd *.md",
 		"lint": "eslint ."
 	},
 	"repository": {
