@@ -5,29 +5,34 @@ var flagsGetter = require('regexp.prototype.flags');
 
 var RegExpStringIterator = require('./RegExpStringIterator');
 var OrigRegExp = RegExp;
-var hasFlags = typeof (/a/).flags === 'string';
 
 module.exports = function MatchAllIterator(R, O) {
-	if (!ES.IsRegExp(R)) {
-		throw new TypeError('MatchAllIterator requires a regex');
-	}
 	var S = ES.ToString(O);
-	var C = ES.SpeciesConstructor(R, OrigRegExp);
-	var flags = ES.Get(R, 'flags');
 
-	var matcher;
-	var actualFlags = typeof flags === 'string' ? flags : flagsGetter(R);
-	if (hasFlags) {
-		matcher = new C(R, actualFlags); // ES.Construct(C, [R, actualFlags]);
-	} else if (C === OrigRegExp) {
-		// workaround for older engines that lack RegExp.prototype.flags
-		matcher = new C(R.source, actualFlags); // ES.Construct(C, [R.source, actualFlags]);
+	var matcher, global, fullUnicode, flags;
+	if (ES.IsRegExp(R)) {
+		var C = ES.SpeciesConstructor(R, OrigRegExp);
+		flags = ES.Get(R, 'flags');
+		if (typeof flags === 'string') {
+			matcher = new C(R, flags); // ES.Construct(C, [R, flags]);
+		} else if (C === OrigRegExp) {
+			// workaround for older engines that lack RegExp.prototype.flags
+			matcher = new C(R.source, flagsGetter(R)); // ES.Construct(C, [R.source, flagsGetter(R)]);
+		} else {
+			matcher = new C(R, flagsGetter(R)); // ES.Construct(C, [R, flagsGetter(R)]);
+		}
+		global = ES.ToBoolean(ES.Get(matcher, 'global'));
+		fullUnicode = ES.ToBoolean(ES.Get(matcher, 'unicode'));
+		var lastIndex = ES.ToLength(ES.Get(R, 'lastIndex'));
+		ES.Set(matcher, 'lastIndex', lastIndex, true);
 	} else {
-		matcher = new C(R, actualFlags); // ES.Construct(C, [R, actualFlags]);
+		flags = 'g';
+		matcher = new OrigRegExp(R, flags);
+		global = true;
+		fullUnicode = false;
+		if (ES.Get(matcher, 'lastIndex') !== 0) {
+			throw new TypeError('Assertion failed: newly constructed RegExp had a lastIndex !== 0. Please report this!');
+		}
 	}
-	var global = ES.ToBoolean(ES.Get(R, 'global'));
-	var fullUnicode = ES.ToBoolean(ES.Get(R, 'unicode'));
-	var lastIndex = ES.ToLength(ES.Get(R, 'lastIndex'));
-	ES.Set(matcher, 'lastIndex', lastIndex, true);
 	return new RegExpStringIterator(matcher, S, global, fullUnicode);
 };

@@ -5,6 +5,9 @@ var hasSymbols = require('has-symbols')();
 var getPolyfill = require('./polyfill');
 var regexMatchAll = require('./regexp-matchall');
 
+var defineP = Object.defineProperty;
+var gOPD = Object.getOwnPropertyDescriptor;
+
 module.exports = function shimMatchAll() {
 	var polyfill = getPolyfill();
 	define(
@@ -20,6 +23,18 @@ module.exports = function shimMatchAll() {
 			{ matchAll: symbol },
 			{ matchAll: function () { return Symbol.matchAll !== symbol; } }
 		);
+
+		if (defineP && gOPD) {
+			var desc = gOPD(Symbol, symbol);
+			if (!desc || desc.configurable) {
+				defineP(Symbol, symbol, {
+					configurable: false,
+					enumerable: false,
+					value: symbol,
+					writable: false
+				});
+			}
+		}
 
 		var func = {};
 		func[symbol] = RegExp.prototype[symbol] || regexMatchAll;

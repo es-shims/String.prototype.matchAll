@@ -11,7 +11,7 @@
 		"tests-only": "npm run test:module && npm run test:shim",
 		"test:module": "node test",
 		"test:shim": "node test/shimmed",
-        "prelint": "evalmd *.md",
+		"prelint": "evalmd *.md",
 		"lint": "eslint ."
 	},
 	"repository": {
@@ -36,7 +36,7 @@
 	"homepage": "https://github.com/ljharb/String.prototype.matchAll#readme",
 	"dependencies": {
 		"define-properties": "^1.1.2",
-		"es-abstract": "^1.10.0",
+		"es-abstract": "^1.12.0",
 		"function-bind": "^1.1.1",
 		"has-symbols": "^1.0.0",
 		"regexp.prototype.flags": "^1.2.0"

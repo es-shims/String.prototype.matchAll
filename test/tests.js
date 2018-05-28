@@ -39,7 +39,7 @@ var testResults = function (t, iterator, expectedResults, item) {
 			st.equal(result.done, expected.done, 'result ' + (index + 1) + ' is ' + (expected.done ? '' : 'not ') + 'done');
 			st.test('result ' + (index + 1), { skip: result.done !== expected.done }, function (s2t) {
 				if (expected.done) {
-					s2t.equal(result.value, null, 'result ' + (index + 1) + ' value is null');
+					s2t.equal(result.value, undefined, 'result ' + (index + 1) + ' value is undefined');
 				} else {
 					s2t.equal(Array.isArray(result.value), true, 'result ' + (index + 1) + ' value is an array');
 					s2t.deepEqual(entries(result.value || {}), entries(expected.value || {}), 'result ' + (index + 1) + ' has the same entries');
@@ -54,28 +54,28 @@ var testResults = function (t, iterator, expectedResults, item) {
 module.exports = function (matchAll, regexMatchAll, t) {
 	t.test('non-regexes', function (st) {
 		var notRegexes = [
-			[null, [{ value: null, done: true }]],
+			[null, [{ value: undefined, done: true }]],
 			[undefined, [
 				{ value: assign([''], groups({ index: 0, input: 'abc' })), done: false },
 				{ value: assign([''], groups({ index: 1, input: 'abc' })), done: false },
 				{ value: assign([''], groups({ index: 2, input: 'abc' })), done: false },
 				{ value: assign([''], groups({ index: 3, input: 'abc' })), done: false },
-				{ value: null, done: true }
+				{ value: undefined, done: true }
 			]],
-			[NaN, [{ value: null, done: true }]],
-			[42, [{ value: null, done: true }]],
-			[new Date(), [{ value: null, done: true }]],
+			[NaN, [{ value: undefined, done: true }]],
+			[42, [{ value: undefined, done: true }]],
+			[new Date(), [{ value: undefined, done: true }]],
 			[{}, [
 				{ value: assign(['b'], groups({ index: 1, input: 'abc' })), done: false },
 				{ value: assign(['c'], groups({ index: 2, input: 'abc' })), done: false },
-				{ value: null, done: true }
+				{ value: undefined, done: true }
 			]],
 			[[], [
 				{ value: assign([''], groups({ index: 0, input: 'abc' })), done: false },
 				{ value: assign([''], groups({ index: 1, input: 'abc' })), done: false },
 				{ value: assign([''], groups({ index: 2, input: 'abc' })), done: false },
 				{ value: assign([''], groups({ index: 3, input: 'abc' })), done: false },
-				{ value: null, done: true }
+				{ value: undefined, done: true }
 			]]
 		];
 		var str = 'abc';
@@ -99,7 +99,7 @@ module.exports = function (matchAll, regexMatchAll, t) {
 			{ value: assign(['a'], groups({ index: 0, input: str })), done: false },
 			{ value: assign(['a'], groups({ index: 1, input: str })), done: false },
 			{ value: assign(['c'], groups({ index: 3, input: str })), done: false },
-			{ value: null, done: true }
+			{ value: undefined, done: true }
 		];
 		testResults(st, matchAll(strObj, regex), expectedResults);
 		st.end();
@@ -117,7 +117,7 @@ module.exports = function (matchAll, regexMatchAll, t) {
 				{ value: assign(['a'], groups({ index: 0, input: str })), done: false },
 				{ value: assign(['a'], groups({ index: 1, input: str })), done: false },
 				{ value: assign(['c'], groups({ index: 3, input: str })), done: false },
-				{ value: null, done: true }
+				{ value: undefined, done: true }
 			];
 			testResults(s2t, matchAll(str, regex), expectedResults);
 			s2t.end();
@@ -139,7 +139,7 @@ module.exports = function (matchAll, regexMatchAll, t) {
 				{ value: assign(['A'], groups({ index: 0, input: str })), done: false },
 				{ value: assign(['a'], groups({ index: 1, input: str })), done: false },
 				{ value: assign(['C'], groups({ index: 3, input: str })), done: false },
-				{ value: null, done: true }
+				{ value: undefined, done: true }
 			];
 			testResults(s2t, matchAll(str, regex), expectedResults);
 			return s2t.end();
@@ -152,7 +152,7 @@ module.exports = function (matchAll, regexMatchAll, t) {
 				{ value: assign(['A'], groups({ index: 0, input: str })), done: false },
 				{ value: assign(['a'], groups({ index: 2, input: str })), done: false },
 				{ value: assign(['C'], groups({ index: 6, input: str })), done: false },
-				{ value: null, done: true }
+				{ value: undefined, done: true }
 			];
 			testResults(s2t, matchAll(str, regex), expectedResults);
 			s2t.end();
@@ -163,7 +163,7 @@ module.exports = function (matchAll, regexMatchAll, t) {
 			var regex = /[bc]/i;
 			var expectedResults = [
 				{ value: assign(['B'], groups({ index: 2, input: str })), done: false },
-				{ value: null, done: true }
+				{ value: undefined, done: true }
 			];
 			testResults(s2t, matchAll(str, regex), expectedResults);
 			s2t.end();
@@ -182,7 +182,7 @@ module.exports = function (matchAll, regexMatchAll, t) {
 			{ value: assign(['a'], groups({ index: 0, input: str })), done: false },
 			{ value: assign(['a'], groups({ index: 1, input: str })), done: false },
 			{ value: assign(['c'], groups({ index: 3, input: str })), done: false },
-			{ value: null, done: true }
+			{ value: undefined, done: true }
 		];
 		testResults(st, iterator, expectedResults);
 		st.end();
@@ -197,7 +197,7 @@ module.exports = function (matchAll, regexMatchAll, t) {
 				{ value: assign([''], groups({ index: 2, input: str })), done: false },
 				{ value: assign([''], groups({ index: 3, input: str })), done: false },
 				{ value: assign([''], groups({ index: 4, input: str })), done: false },
-				{ value: null, done: true }
+				{ value: undefined, done: true }
 			];
 			testResults(s2t, matchAll(str, /\B/g), expectedResults);
 			s2t.end();
@@ -205,7 +205,7 @@ module.exports = function (matchAll, regexMatchAll, t) {
 
 		st.test('sticky', { skip: !hasSticky }, function (s2t) {
 			var expectedResults = [
-				{ value: null, done: true }
+				{ value: undefined, done: true }
 			];
 			/* eslint no-invalid-regexp: [2, { "allowConstructorFlags": ["y"] }] */
 			testResults(s2t, matchAll(str, new RegExp('\\B', 'y')), expectedResults);
@@ -215,7 +215,7 @@ module.exports = function (matchAll, regexMatchAll, t) {
 		st.test('unflagged', function (s2t) {
 			var expectedResults = [
 				{ value: assign([''], groups({ index: 1, input: str })), done: false },
-				{ value: null, done: true }
+				{ value: undefined, done: true }
 			];
 			testResults(s2t, matchAll(str, /\B/), expectedResults);
 			s2t.end();

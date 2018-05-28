@@ -38,7 +38,7 @@ test('shimmed', function (t) {
 			if (functionNamesConfigurable) {
 				s2t.equal(RegExp.prototype[Symbol.matchAll].name, '[Symbol.matchAll]', 'RegExp.prototype[Symbol.matchAll] has name "[Symbol.matchAll]"');
 			} else {
-				s2t.equal(RegExp.prototype[Symbol.matchAll].name, 'symbolMatchAll', 'RegExp.prototype[Symbol.matchAll] has best guess name "symbolMatchAll"');
+				s2t.equal(RegExp.prototype[Symbol.matchAll].name, 'SymbolMatchAll', 'RegExp.prototype[Symbol.matchAll] has best guess name "SymbolMatchAll"');
 			}
 			s2t.end();
 		});
