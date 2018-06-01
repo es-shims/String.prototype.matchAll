@@ -1,3 +1,12 @@
+3.0.0 / 2018-05-31
+==================
+  * [Breaking] update to match latest spec
+  * [Deps] update `es-abstract`
+  * [Dev Deps] update `eslint`, `nsp`, `object-inspect`, `tape`
+  * [Tests] up to `node` `v10.3`, `v9.11`, `v8.11`, `v6.14`, `v4.9`
+  * [Tests] regexes now have a "groups" property in ES2018
+  * [Tests] run evalmd in prelint
+
 2.0.0 / 2018-01-24
 ==================
   * [Breaking] change to handle nonmatching regexes
