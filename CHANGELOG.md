@@ -1,3 +1,11 @@
+3.0.1 / 2018-12-11
+==================
+  * [Fix] update spec to follow committee feedback
+  * [Deps] update `define-properties`
+  * [Dev Deps] update `eslint`, `@ljharb/eslint-config`, `es5-shim`, `es6-shim`, `tape`
+  * [Tests] use `npm audit` instead of `nsp`
+  * [Tests] up to `node` `v11.4`, `v10.14`, `v8.14`, `v6.15`
+
 3.0.0 / 2018-05-31
 ==================
   * [Breaking] update to match latest spec
