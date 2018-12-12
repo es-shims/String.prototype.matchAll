@@ -34,12 +34,35 @@ test('shimmed', function (t) {
 	t.test('Symbol.matchAll', { skip: !hasSymbols }, function (st) {
 		st.equal(typeof Symbol.matchAll, 'symbol', 'Symbol.matchAll is a symbol');
 
+		st.equal(typeof RegExp.prototype[Symbol.matchAll], 'function', 'Symbol.matchAll function is on RegExp.prototype');
+
 		st.test('Function name', { skip: !functionsHaveNames }, function (s2t) {
 			if (functionNamesConfigurable) {
 				s2t.equal(RegExp.prototype[Symbol.matchAll].name, '[Symbol.matchAll]', 'RegExp.prototype[Symbol.matchAll] has name "[Symbol.matchAll]"');
 			} else {
 				s2t.equal(RegExp.prototype[Symbol.matchAll].name, 'SymbolMatchAll', 'RegExp.prototype[Symbol.matchAll] has best guess name "SymbolMatchAll"');
 			}
+			s2t.end();
+		});
+
+		st.test('no symbol present', function (s2t) {
+			var desc = Object.getOwnPropertyDescriptor(RegExp.prototype, Symbol.matchAll);
+
+			s2t.doesNotThrow(function () { 'abc'.matchAll('b'); }, 'does not throw on string input, with the symbol on regex prototype');
+
+			// eslint-disable-next-line no-extend-native
+			Object.defineProperty(RegExp.prototype, Symbol.matchAll, {
+				configurable: true,
+				enumerable: false,
+				value: undefined,
+				writable: true
+			});
+
+			s2t['throws'](function () { 'abc'.matchAll('b'); }, 'throws on string input, without the symbol on regex prototype');
+
+			// eslint-disable-next-line no-extend-native
+			Object.defineProperty(RegExp.prototype, Symbol.matchAll, desc);
+
 			s2t.end();
 		});
 

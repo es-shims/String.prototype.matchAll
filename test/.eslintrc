@@ -4,6 +4,7 @@
 		"array-element-newline": 0,
 		"id-length": 0,
 		"max-lines-per-function": 0,
+		"max-nested-callbacks": 0,
 		"max-params": 0,
 		"no-magic-numbers": 0,
 		"operator-linebreak": 0,
