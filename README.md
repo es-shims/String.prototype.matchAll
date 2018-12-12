@@ -31,13 +31,13 @@ assert.deepEqual(
 );
 
 assert.deepEqual([...matchAll(str, globalRegex)], [
-	Object.assign(['a'], { index: 0, input: str }),
-	Object.assign(['a'], { index: 1, input: str }),
-	Object.assign(['c'], { index: 3, input: str }),
+	Object.assign(['a'], { index: 0, input: str, groups: undefined }),
+	Object.assign(['a'], { index: 1, input: str, groups: undefined }),
+	Object.assign(['c'], { index: 3, input: str, groups: undefined }),
 ]);
 
 assert.deepEqual([...matchAll(str, nonGlobalRegex)], [
-	Object.assign(['b'], { index: 2, input: str }),
+	Object.assign(['b'], { index: 2, input: str, groups: undefined }),
 ]);
 
 matchAll.shim(); // will be a no-op if not needed
@@ -49,13 +49,13 @@ assert.deepEqual(
 );
 
 assert.deepEqual([...str.matchAll(globalRegex)], [
-	Object.assign(['a'], { index: 0, input: str }),
-	Object.assign(['a'], { index: 1, input: str }),
-	Object.assign(['c'], { index: 3, input: str }),
+	Object.assign(['a'], { index: 0, input: str, groups: undefined }),
+	Object.assign(['a'], { index: 1, input: str, groups: undefined }),
+	Object.assign(['c'], { index: 3, input: str, groups: undefined }),
 ]);
 
 assert.deepEqual([...str.matchAll(nonGlobalRegex)], [
-	Object.assign(['b'], { index: 2, input: str }),
+	Object.assign(['b'], { index: 2, input: str, groups: undefined }),
 ]);
 
 ```
