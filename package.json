@@ -6,10 +6,7 @@
 	"scripts": {
 		"pretest": "npm run lint",
 		"test": "es-shim-api --bound && npm run tests-only",
-		"posttest": "npm run audit",
-		"audit": "npm audit",
-		"preaudit": "npm install --package-lock --package-lock-only",
-		"postaudit": "rm package-lock.json",
+		"posttest": "npx aud",
 		"tests-only": "npm run test:module && npm run test:shim",
 		"test:module": "node test",
 		"test:shim": "node test/shimmed",
