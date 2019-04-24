@@ -106,13 +106,28 @@ module.exports = function (matchAll, regexMatchAll, t) {
 	});
 
 	t.test('#flags', function (st) {
-		st.test('without a flags property', function (s2t) {
+		st.test('with an empty string flags property', function (s2t) {
 			var str = 'aabc';
 			var regex = /[ac]/g;
 			if (define.supportsDescriptors) {
 				Object.defineProperty(regex, 'flags', { value: '' });
 			}
 			s2t.equal(regex.flags, '', 'regex has an empty string "flags" property');
+			var expectedResults = [
+				{ value: assign(['a'], groups({ index: 0, input: str })), done: false },
+				{ value: '', done: true }
+			];
+			testResults(s2t, matchAll(str, regex), expectedResults);
+			s2t.end();
+		});
+
+		st.test('without a flags property', function (s2t) {
+			var str = 'aabc';
+			var regex = /[ac]/g;
+			if (define.supportsDescriptors) {
+				Object.defineProperty(regex, 'flags', { value: undefined });
+			}
+			s2t.equal(regex.flags, undefined, 'regex has an undefined "flags" property');
 			var expectedResults = [
 				{ value: assign(['a'], groups({ index: 0, input: str })), done: false },
 				{ value: undefined, done: true }

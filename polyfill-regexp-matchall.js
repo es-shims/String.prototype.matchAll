@@ -7,5 +7,12 @@ module.exports = function getRegExpMatchAllPolyfill() {
 	if (!hasSymbols || typeof Symbol.matchAll !== 'symbol' || typeof RegExp.prototype[Symbol.matchAll] !== 'function') {
 		return regexpMatchAll;
 	}
-	return RegExp.prototype[Symbol.matchAll];
+	try {
+		var r = /a/g;
+		Object.defineProperty(r, 'flags', { value: undefined });
+		r[Symbol.matchAll]('a');
+		return RegExp.prototype[Symbol.matchAll];
+	} catch (e) {
+		return regexpMatchAll;
+	}
 };

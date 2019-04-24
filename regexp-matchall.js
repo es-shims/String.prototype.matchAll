@@ -35,7 +35,7 @@ var constructRegexWithFlags = function constructRegex(C, R) {
 	} else {
 		matcher = new C(R, flags);
 	}
-	return { flags: flags, matcher: matcher };
+	return { flags: ES.ToString(flags), matcher: matcher };
 };
 
 var regexMatchAll = function SymbolMatchAll(string) {
