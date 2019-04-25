@@ -21,17 +21,18 @@ var CreateRegExpStringIterator = function CreateRegExpStringIterator(R, S, globa
 	return iterator;
 };
 
+var supportsConstructingWithFlags = 'flags' in RegExp.prototype;
+
 var constructRegexWithFlags = function constructRegex(C, R) {
 	var matcher;
-	var flags = ES.Get(R, 'flags');
-	if (typeof flags === 'string') {
+	// workaround for older engines that lack RegExp.prototype.flags
+	var flags = 'flags' in R ? ES.Get(R, 'flags') : ES.ToString(flagsGetter(R));
+	if (supportsConstructingWithFlags && typeof flags === 'string') {
 		matcher = new C(R, flags);
 	} else if (C === OrigRegExp) {
-		// workaround for older engines that lack RegExp.prototype.flags
-		flags = ES.ToString(flagsGetter(R));
+		// workaround for older engines that can not construct a RegExp with flags
 		matcher = new C(R.source, flags);
 	} else {
-		flags = ES.ToString(flagsGetter(R));
 		matcher = new C(R, flags);
 	}
 	return { flags: flags, matcher: matcher };
