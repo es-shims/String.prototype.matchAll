@@ -3,7 +3,7 @@
 var define = require('define-properties');
 var hasSymbols = require('has-symbols')();
 var getPolyfill = require('./polyfill');
-var regexMatchAll = require('./regexp-matchall');
+var regexpMatchAllPolyfill = require('./polyfill-regexp-matchall');
 
 var defineP = Object.defineProperty;
 var gOPD = Object.getOwnPropertyDescriptor;
@@ -36,10 +36,13 @@ module.exports = function shimMatchAll() {
 			}
 		}
 
+		var regexpMatchAll = regexpMatchAllPolyfill();
 		var func = {};
-		func[symbol] = RegExp.prototype[symbol] || regexMatchAll;
+		func[symbol] = regexpMatchAll;
 		var predicate = {};
-		predicate[symbol] = function () { return RegExp.prototype[symbol] !== regexMatchAll; };
+		predicate[symbol] = function () {
+			return RegExp.prototype[symbol] !== regexpMatchAll;
+		};
 		define(RegExp.prototype, func, predicate);
 	}
 	return polyfill;
