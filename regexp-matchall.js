@@ -28,10 +28,10 @@ var constructRegexWithFlags = function constructRegex(C, R) {
 		matcher = new C(R, flags);
 	} else if (C === OrigRegExp) {
 		// workaround for older engines that lack RegExp.prototype.flags
-		flags = flagsGetter(R);
+		flags = ES.ToString(flagsGetter(R));
 		matcher = new C(R.source, flags);
 	} else {
-		flags = flagsGetter(R);
+		flags = ES.ToString(flagsGetter(R));
 		matcher = new C(R, flags);
 	}
 	return { flags: flags, matcher: matcher };

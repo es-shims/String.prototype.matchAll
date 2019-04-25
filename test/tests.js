@@ -110,13 +110,11 @@ module.exports = function (matchAll, regexMatchAll, t) {
 			var str = 'aabc';
 			var regex = /[ac]/g;
 			if (define.supportsDescriptors) {
-				Object.defineProperty(regex, 'flags', { value: undefined });
+				Object.defineProperty(regex, 'flags', { value: '' });
 			}
-			s2t.equal(regex.flags, undefined, 'regex has an undefined "flags" property');
+			s2t.equal(regex.flags, '', 'regex has an empty string "flags" property');
 			var expectedResults = [
 				{ value: assign(['a'], groups({ index: 0, input: str })), done: false },
-				{ value: assign(['a'], groups({ index: 1, input: str })), done: false },
-				{ value: assign(['c'], groups({ index: 3, input: str })), done: false },
 				{ value: undefined, done: true }
 			];
 			testResults(s2t, matchAll(str, regex), expectedResults);
