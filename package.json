@@ -51,6 +51,6 @@
 		"object-inspect": "^1.6.0",
 		"object.assign": "^4.1.0",
 		"object.entries": "^1.1.0",
-		"tape": "^4.10.1"
+		"tape": "^4.11.0"
 	}
 }
