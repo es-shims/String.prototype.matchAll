@@ -48,6 +48,7 @@
 		"eslint": "^5.16.0",
 		"evalmd": "^0.0.17",
 		"foreach": "^2.0.5",
+		"functions-have-names": "^1.1.0",
 		"object-inspect": "^1.6.0",
 		"object.assign": "^4.1.0",
 		"object.entries": "^1.1.0",

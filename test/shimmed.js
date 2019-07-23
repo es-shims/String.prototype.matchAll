@@ -12,10 +12,8 @@ var hasSymbols = require('has-symbols')();
 var regexMatchAll = require('../regexp-matchall');
 
 var isEnumerable = Object.prototype.propertyIsEnumerable;
-var functionsHaveNames = function f() {}.name === 'f';
-var functionNamesConfigurable = functionsHaveNames
-	&& Object.getOwnPropertyDescriptor
-	&& Object.getOwnPropertyDescriptor(function () {}, 'name').configurable;
+var functionsHaveNames = require('functions-have-names')();
+var functionNamesConfigurable = require('functions-have-names').functionsHaveConfigurableNames();
 
 var runTests = require('./tests');
 
