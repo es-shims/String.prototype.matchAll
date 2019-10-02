@@ -1,6 +1,6 @@
 'use strict';
 
-var ES = require('es-abstract');
+var ES = require('es-abstract/es2019');
 var flagsGetter = require('regexp.prototype.flags');
 
 var RegExpStringIterator = require('./RegExpStringIterator');

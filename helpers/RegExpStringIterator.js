@@ -1,7 +1,7 @@
 'use strict';
 
 var define = require('define-properties');
-var ES = require('es-abstract');
+var ES = require('es-abstract/es2019');
 var GetIntrinsic = require('es-abstract/GetIntrinsic');
 var hasSymbols = require('has-symbols')();
 
