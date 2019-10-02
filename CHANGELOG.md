@@ -1,3 +1,16 @@
+3.0.2 / 2019-10-02
+==================
+  * [Fix] ensure that `flagsGetter` is only used when there is no `flags` property on the regex
+  * [Fix] `RegExp.prototype[Symbol.matchAll]`: ToString the `flags` property
+  * [Refactor] provide a consistent way to determine the polyfill for `RegExp.prototype[Symbol.matchAll]`
+  * [meta] create FUNDING.yml
+  * [Deps] update `es-abstract`
+  * [Dev Deps] update `eslint`, `@ljharb/eslint-config`, `evalmd`, `functions-have-names`, `es5-shim`, `es6-shim`, `object.entries`, `tape`
+  * [Tests] up to `node` `v12.11`, `v11.15`, `v10.16`, `v8.16`, `v6.17`
+  * [Tests] use `functions-have-names`
+  * [Tests] bump audit level, due to https://github.com/reggi/evalmd/issues/13
+  * [Tests] use `npx aud` instead of `npm audit` with hoops
+
 3.0.1 / 2018-12-11
 ==================
   * [Fix] update spec to follow committee feedback
