@@ -37,5 +37,15 @@
 		}],
 		"no-restricted-syntax": [2, "BreakStatement", "ContinueStatement", "DebuggerStatement", "LabeledStatement", "WithStatement"],
 		"operator-linebreak": [2, "before"],
-	}
+	},
+
+	"overrides": [
+		{
+			"files": "test/**",
+			"rules": {
+				"max-lines-per-function": 0,
+				"max-nested-callbacks": 0,
+			},
+		},
+	],
 }

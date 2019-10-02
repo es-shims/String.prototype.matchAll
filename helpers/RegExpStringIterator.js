@@ -6,7 +6,7 @@ var GetIntrinsic = require('es-abstract/GetIntrinsic');
 var hasSymbols = require('has-symbols')();
 
 var hidden = require('./hidden')();
-var undefined; // eslint-disable-line no-shadow-restricted-names
+var undefined;
 
 var RegExpStringIterator = function RegExpStringIterator(R, S, global, fullUnicode) {
 	if (ES.Type(S) !== 'String') {
