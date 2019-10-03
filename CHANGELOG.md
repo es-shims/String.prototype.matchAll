@@ -1,3 +1,8 @@
+4.0.0 / 2019-10-03
+==================
+  * [Breaking] throw on non-global/nullish flags
+  * [Deps] update `es-abstract`
+
 3.0.2 / 2019-10-02
 ==================
   * [Fix] ensure that `flagsGetter` is only used when there is no `flags` property on the regex
