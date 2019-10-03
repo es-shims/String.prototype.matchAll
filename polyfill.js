@@ -3,5 +3,12 @@
 var implementation = require('./implementation');
 
 module.exports = function getPolyfill() {
-	return String.prototype.matchAll || implementation;
+	if (String.prototype.matchAll) {
+		try {
+			''.matchAll(RegExp.prototype);
+		} catch (e) {
+			return String.prototype.matchAll;
+		}
+	}
+	return implementation;
 };

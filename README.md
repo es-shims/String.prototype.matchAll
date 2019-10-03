@@ -36,9 +36,7 @@ assert.deepEqual([...matchAll(str, globalRegex)], [
 	Object.assign(['c'], { index: 3, input: str, groups: undefined }),
 ]);
 
-assert.deepEqual([...matchAll(str, nonGlobalRegex)], [
-	Object.assign(['b'], { index: 2, input: str, groups: undefined }),
-]);
+assert.throws(() => matchAll(str, nonGlobalRegex)); // non-global regexes throw
 
 matchAll.shim(); // will be a no-op if not needed
 
@@ -54,9 +52,7 @@ assert.deepEqual([...str.matchAll(globalRegex)], [
 	Object.assign(['c'], { index: 3, input: str, groups: undefined }),
 ]);
 
-assert.deepEqual([...str.matchAll(nonGlobalRegex)], [
-	Object.assign(['b'], { index: 2, input: str, groups: undefined }),
-]);
+assert.throws(() => matchAll(str, nonGlobalRegex)); // non-global regexes throw
 
 ```
 

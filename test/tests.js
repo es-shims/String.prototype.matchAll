@@ -110,14 +110,13 @@ module.exports = function (matchAll, regexMatchAll, t) {
 			var str = 'aabc';
 			var regex = /[ac]/g;
 			if (define.supportsDescriptors) {
-				Object.defineProperty(regex, 'flags', { value: '' });
+				Object.defineProperty(regex, 'flags', { value: undefined });
 			}
-			s2t.equal(regex.flags, '', 'regex has an empty string "flags" property');
-			var expectedResults = [
-				{ value: assign(['a'], groups({ index: 0, input: str })), done: false },
-				{ value: undefined, done: true }
-			];
-			testResults(s2t, matchAll(str, regex), expectedResults);
+			s2t.equal(regex.flags, undefined, 'regex has an undefined "flags" property');
+			s2t['throws'](
+				function () { matchAll(str, regex); },
+				'undefined flags throws'
+			);
 			s2t.end();
 		});
 
@@ -156,11 +155,25 @@ module.exports = function (matchAll, regexMatchAll, t) {
 			s2t.end();
 		});
 
-		st.test('works with a non-global non-sticky regex', function (s2t) {
+		st.test('throws with a non-global regex', function (s2t) {
 			var str = 'AaBbCc';
 			var regex = /[bc]/i;
+			s2t['throws'](
+				function () { matchAll(str, regex); },
+				TypeError,
+				'a non-global regex throws'
+			);
+			s2t.end();
+		});
+
+		st.test('works with a global non-sticky regex', function (s2t) {
+			var str = 'AaBbCc';
+			var regex = /[bc]/gi;
 			var expectedResults = [
 				{ value: assign(['B'], groups({ index: 2, input: str })), done: false },
+				{ value: assign(['b'], groups({ index: 3, input: str })), done: false },
+				{ value: assign(['C'], groups({ index: 4, input: str })), done: false },
+				{ value: assign(['c'], groups({ index: 5, input: str })), done: false },
 				{ value: undefined, done: true }
 			];
 			testResults(s2t, matchAll(str, regex), expectedResults);
@@ -205,17 +218,27 @@ module.exports = function (matchAll, regexMatchAll, t) {
 			var expectedResults = [
 				{ value: undefined, done: true }
 			];
+
 			/* eslint no-invalid-regexp: [2, { "allowConstructorFlags": ["y"] }] */
-			testResults(s2t, matchAll(str, new RegExp('\\B', 'y')), expectedResults);
+			var regex = new RegExp('\\B', 'y');
+			s2t['throws'](
+				function () { matchAll(str, regex); },
+				TypeError,
+				'non-global sticky regex throws'
+			);
+
+			/* eslint no-invalid-regexp: [2, { "allowConstructorFlags": ["y"] }] */
+			testResults(s2t, matchAll(str, new RegExp('\\B', 'gy')), expectedResults);
+
 			s2t.end();
 		});
 
 		st.test('unflagged', function (s2t) {
-			var expectedResults = [
-				{ value: assign([''], groups({ index: 1, input: str })), done: false },
-				{ value: undefined, done: true }
-			];
-			testResults(s2t, matchAll(str, /\B/), expectedResults);
+			s2t['throws'](
+				function () { matchAll(str, /\B/); },
+				TypeError,
+				'unflagged regex throws'
+			);
 			s2t.end();
 		});
 

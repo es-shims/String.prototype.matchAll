@@ -1,7 +1,11 @@
 'use strict';
 
 var ES = require('es-abstract/es2019');
+var callBound = require('es-abstract/helpers/callBound');
 var hasSymbols = require('has-symbols')();
+var flagsGetter = require('regexp.prototype.flags');
+
+var $indexOf = callBound('String.prototype.indexOf');
 
 var regexpMatchAllPolyfill = require('./polyfill-regexp-matchall');
 
@@ -24,6 +28,16 @@ module.exports = function matchAll(regexp) {
 	var O = ES.RequireObjectCoercible(this);
 
 	if (typeof regexp !== 'undefined' && regexp !== null) {
+		var isRegExp = ES.IsRegExp(regexp);
+		if (isRegExp) {
+			// workaround for older engines that lack RegExp.prototype.flags
+			var flags = 'flags' in regexp ? ES.Get(regexp, 'flags') : flagsGetter(regexp);
+			ES.RequireObjectCoercible(flags);
+			if ($indexOf(ES.ToString(flags), 'g') < 0) {
+				throw new TypeError('matchAll requires a non-global regular expression');
+			}
+		}
+
 		var matcher = getMatcher(regexp);
 		if (typeof matcher !== 'undefined') {
 			return ES.Call(matcher, regexp, [O]);
