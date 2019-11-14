@@ -1,13 +1,13 @@
 'use strict';
 
-var bind = require('function-bind');
+var callBind = require('es-abstract/helpers/callBind');
 var define = require('define-properties');
 
 var implementation = require('./implementation');
 var getPolyfill = require('./polyfill');
 var shim = require('./shim');
 
-var boundMatchAll = bind.call(Function.call, implementation);
+var boundMatchAll = callBind(implementation);
 
 define(boundMatchAll, {
 	getPolyfill: getPolyfill,
