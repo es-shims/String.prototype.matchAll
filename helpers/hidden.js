@@ -31,7 +31,7 @@ module.exports = function getHiddenKeyManager() {
 					writable: true
 				});
 			} else {
-				obj[key] = value;
+				obj[key] = value; // eslint-disable-line no-param-reassign
 			}
 		}
 	};

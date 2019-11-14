@@ -45,6 +45,7 @@
 			"rules": {
 				"max-lines-per-function": 0,
 				"max-nested-callbacks": 0,
+				"prefer-regex-literals": 0,
 			},
 		},
 	],

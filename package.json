@@ -4,6 +4,7 @@
 	"description": "Spec-compliant polyfill for String.prototype.matchAll ESnext proposal.",
 	"main": "index.js",
 	"scripts": {
+		"prepublish": "safe-publish-latest",
 		"pretest": "npm run lint",
 		"test": "es-shim-api --bound && npm run tests-only",
 		"posttest": "npx aud --production",
@@ -44,17 +45,18 @@
 	},
 	"devDependencies": {
 		"@es-shims/api": "^2.1.2",
-		"@ljharb/eslint-config": "^14.1.0",
+		"@ljharb/eslint-config": "^15.0.1",
 		"es5-shim": "^4.5.13",
 		"es6-shim": "^0.35.5",
-		"eslint": "^6.5.1",
+		"eslint": "^6.6.0",
 		"evalmd": "^0.0.18",
 		"foreach": "^2.0.5",
 		"function-bind": "^1.1.1",
-		"functions-have-names": "^1.1.1",
-		"object-inspect": "^1.6.0",
+		"functions-have-names": "^1.2.0",
+		"object-inspect": "^1.7.0",
 		"object.assign": "^4.1.0",
 		"object.entries": "^1.1.0",
+		"safe-publish-latest": "^1.1.4",
 		"tape": "^4.11.0"
 	}
 }
