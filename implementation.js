@@ -34,7 +34,7 @@ module.exports = function matchAll(regexp) {
 			var flags = 'flags' in regexp ? ES.Get(regexp, 'flags') : flagsGetter(regexp);
 			ES.RequireObjectCoercible(flags);
 			if ($indexOf(ES.ToString(flags), 'g') < 0) {
-				throw new TypeError('matchAll requires a non-global regular expression');
+				throw new TypeError('matchAll requires a global regular expression');
 			}
 		}
 
