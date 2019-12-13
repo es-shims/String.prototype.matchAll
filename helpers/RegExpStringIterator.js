@@ -13,7 +13,7 @@ var ToString = require('es-abstract/2019/ToString');
 var Type = require('es-abstract/2019/Type');
 var hasSymbols = require('has-symbols')();
 
-var hidden = require('side-channel')();
+var SLOT = require('internal-slot');
 var undefined;
 
 var RegExpStringIterator = function RegExpStringIterator(R, S, global, fullUnicode) {
@@ -26,11 +26,11 @@ var RegExpStringIterator = function RegExpStringIterator(R, S, global, fullUnico
 	if (Type(fullUnicode) !== 'Boolean') {
 		throw new TypeError('fullUnicode must be a boolean');
 	}
-	hidden.set(this, '[[IteratingRegExp]]', R);
-	hidden.set(this, '[[IteratedString]]', S);
-	hidden.set(this, '[[Global]]', global);
-	hidden.set(this, '[[Unicode]]', fullUnicode);
-	hidden.set(this, '[[Done]]', false);
+	SLOT.set(this, '[[IteratingRegExp]]', R);
+	SLOT.set(this, '[[IteratedString]]', S);
+	SLOT.set(this, '[[Global]]', global);
+	SLOT.set(this, '[[Unicode]]', fullUnicode);
+	SLOT.set(this, '[[Done]]', false);
 };
 
 var IteratorPrototype = GetIntrinsic('%IteratorPrototype%', true);
@@ -46,24 +46,24 @@ define(RegExpStringIterator.prototype, {
 		}
 		if (
 			!(O instanceof RegExpStringIterator)
-			|| !hidden.has(O, '[[IteratingRegExp]]')
-			|| !hidden.has(O, '[[IteratedString]]')
-			|| !hidden.has(O, '[[Global]]')
-			|| !hidden.has(O, '[[Unicode]]')
-			|| !hidden.has(O, '[[Done]]')
+			|| !SLOT.has(O, '[[IteratingRegExp]]')
+			|| !SLOT.has(O, '[[IteratedString]]')
+			|| !SLOT.has(O, '[[Global]]')
+			|| !SLOT.has(O, '[[Unicode]]')
+			|| !SLOT.has(O, '[[Done]]')
 		) {
 			throw new TypeError('"this" value must be a RegExpStringIterator instance');
 		}
-		if (hidden.get(O, '[[Done]]')) {
+		if (SLOT.get(O, '[[Done]]')) {
 			return CreateIterResultObject(undefined, true);
 		}
-		var R = hidden.get(O, '[[IteratingRegExp]]');
-		var S = hidden.get(O, '[[IteratedString]]');
-		var global = hidden.get(O, '[[Global]]');
-		var fullUnicode = hidden.get(O, '[[Unicode]]');
+		var R = SLOT.get(O, '[[IteratingRegExp]]');
+		var S = SLOT.get(O, '[[IteratedString]]');
+		var global = SLOT.get(O, '[[Global]]');
+		var fullUnicode = SLOT.get(O, '[[Unicode]]');
 		var match = RegExpExec(R, S);
 		if (match === null) {
-			hidden.set(O, '[[Done]]', true);
+			SLOT.set(O, '[[Done]]', true);
 			return CreateIterResultObject(undefined, true);
 		}
 		if (global) {
@@ -75,7 +75,7 @@ define(RegExpStringIterator.prototype, {
 			}
 			return CreateIterResultObject(match, false);
 		}
-		hidden.set(O, '[[Done]]', true);
+		SLOT.set(O, '[[Done]]', true);
 		return CreateIterResultObject(match, false);
 	}
 });
