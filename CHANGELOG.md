@@ -1,3 +1,13 @@
+4.0.1 / 2019-12-13
+==================
+  * [Refactor] use split-up `es-abstract` (61% bundle size decrease)
+  * [Fix] fix error message: matchAll requires *global*
+  * [Deps] update `es-abstract`, `has-symbols`
+  * [Dev Deps] update `eslint`, `@ljharb/eslint-config`, `functions-have-names`, `object-inspect`, `evalmd`, `object.entries`; add `safe-publish-latest`
+  * [meta] add `funding` field
+  * [Tests] use shared travis-ci configs
+  * [actions] add automatic rebasing / merge commit blocking
+
 4.0.0 / 2019-10-03
 ==================
   * [Breaking] throw on non-global/nullish flags
