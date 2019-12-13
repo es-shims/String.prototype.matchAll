@@ -1,36 +1,42 @@
 'use strict';
 
-var ES = require('es-abstract/es2019');
+var Get = require('es-abstract/2019/Get');
+var IsRegExp = require('es-abstract/2019/IsRegExp');
+var Set = require('es-abstract/2019/Set');
+var SpeciesConstructor = require('es-abstract/2019/SpeciesConstructor');
+var ToBoolean = require('es-abstract/2019/ToBoolean');
+var ToLength = require('es-abstract/2019/ToLength');
+var ToString = require('es-abstract/2019/ToString');
 var flagsGetter = require('regexp.prototype.flags');
 
 var RegExpStringIterator = require('./RegExpStringIterator');
 var OrigRegExp = RegExp;
 
 module.exports = function MatchAllIterator(R, O) {
-	var S = ES.ToString(O);
+	var S = ToString(O);
 
 	var matcher, global, fullUnicode, flags;
-	if (ES.IsRegExp(R)) {
-		var C = ES.SpeciesConstructor(R, OrigRegExp);
-		flags = ES.Get(R, 'flags');
+	if (IsRegExp(R)) {
+		var C = SpeciesConstructor(R, OrigRegExp);
+		flags = Get(R, 'flags');
 		if (typeof flags === 'string') {
-			matcher = new C(R, flags); // ES.Construct(C, [R, flags]);
+			matcher = new C(R, flags); // Construct(C, [R, flags]);
 		} else if (C === OrigRegExp) {
 			// workaround for older engines that lack RegExp.prototype.flags
-			matcher = new C(R.source, flagsGetter(R)); // ES.Construct(C, [R.source, flagsGetter(R)]);
+			matcher = new C(R.source, flagsGetter(R)); // Construct(C, [R.source, flagsGetter(R)]);
 		} else {
-			matcher = new C(R, flagsGetter(R)); // ES.Construct(C, [R, flagsGetter(R)]);
+			matcher = new C(R, flagsGetter(R)); // Construct(C, [R, flagsGetter(R)]);
 		}
-		global = ES.ToBoolean(ES.Get(matcher, 'global'));
-		fullUnicode = ES.ToBoolean(ES.Get(matcher, 'unicode'));
-		var lastIndex = ES.ToLength(ES.Get(R, 'lastIndex'));
-		ES.Set(matcher, 'lastIndex', lastIndex, true);
+		global = ToBoolean(Get(matcher, 'global'));
+		fullUnicode = ToBoolean(Get(matcher, 'unicode'));
+		var lastIndex = ToLength(Get(R, 'lastIndex'));
+		Set(matcher, 'lastIndex', lastIndex, true);
 	} else {
 		flags = 'g';
 		matcher = new OrigRegExp(R, flags);
 		global = true;
 		fullUnicode = false;
-		if (ES.Get(matcher, 'lastIndex') !== 0) {
+		if (Get(matcher, 'lastIndex') !== 0) {
 			throw new TypeError('Assertion failed: newly constructed RegExp had a lastIndex !== 0. Please report this!');
 		}
 	}

@@ -1,21 +1,29 @@
 'use strict';
 
 var define = require('define-properties');
-var ES = require('es-abstract/es2019');
+var AdvanceStringIndex = require('es-abstract/2019/AdvanceStringIndex');
+var CreateIterResultObject = require('es-abstract/2019/CreateIterResultObject');
+var Get = require('es-abstract/2019/Get');
 var GetIntrinsic = require('es-abstract/GetIntrinsic');
+var ObjectCreate = require('es-abstract/2019/ObjectCreate');
+var RegExpExec = require('es-abstract/2019/RegExpExec');
+var Set = require('es-abstract/2019/Set');
+var ToLength = require('es-abstract/2019/ToLength');
+var ToString = require('es-abstract/2019/ToString');
+var Type = require('es-abstract/2019/Type');
 var hasSymbols = require('has-symbols')();
 
 var hidden = require('./hidden')();
 var undefined;
 
 var RegExpStringIterator = function RegExpStringIterator(R, S, global, fullUnicode) {
-	if (ES.Type(S) !== 'String') {
+	if (Type(S) !== 'String') {
 		throw new TypeError('S must be a string');
 	}
-	if (ES.Type(global) !== 'Boolean') {
+	if (Type(global) !== 'Boolean') {
 		throw new TypeError('global must be a boolean');
 	}
-	if (ES.Type(fullUnicode) !== 'Boolean') {
+	if (Type(fullUnicode) !== 'Boolean') {
 		throw new TypeError('fullUnicode must be a boolean');
 	}
 	hidden.set(this, '[[IteratingRegExp]]', R);
@@ -27,13 +35,13 @@ var RegExpStringIterator = function RegExpStringIterator(R, S, global, fullUnico
 
 var IteratorPrototype = GetIntrinsic('%IteratorPrototype%', true);
 if (IteratorPrototype) {
-	RegExpStringIterator.prototype = ES.ObjectCreate(IteratorPrototype);
+	RegExpStringIterator.prototype = ObjectCreate(IteratorPrototype);
 }
 
 define(RegExpStringIterator.prototype, {
 	next: function next() {
 		var O = this;
-		if (ES.Type(O) !== 'Object') {
+		if (Type(O) !== 'Object') {
 			throw new TypeError('receiver must be an object');
 		}
 		if (
@@ -47,28 +55,28 @@ define(RegExpStringIterator.prototype, {
 			throw new TypeError('"this" value must be a RegExpStringIterator instance');
 		}
 		if (hidden.get(O, '[[Done]]')) {
-			return ES.CreateIterResultObject(undefined, true);
+			return CreateIterResultObject(undefined, true);
 		}
 		var R = hidden.get(O, '[[IteratingRegExp]]');
 		var S = hidden.get(O, '[[IteratedString]]');
 		var global = hidden.get(O, '[[Global]]');
 		var fullUnicode = hidden.get(O, '[[Unicode]]');
-		var match = ES.RegExpExec(R, S);
+		var match = RegExpExec(R, S);
 		if (match === null) {
 			hidden.set(O, '[[Done]]', true);
-			return ES.CreateIterResultObject(undefined, true);
+			return CreateIterResultObject(undefined, true);
 		}
 		if (global) {
-			var matchStr = ES.ToString(ES.Get(match, '0'));
+			var matchStr = ToString(Get(match, '0'));
 			if (matchStr === '') {
-				var thisIndex = ES.ToLength(ES.Get(R, 'lastIndex'));
-				var nextIndex = ES.AdvanceStringIndex(S, thisIndex, fullUnicode);
-				ES.Set(R, 'lastIndex', nextIndex, true);
+				var thisIndex = ToLength(Get(R, 'lastIndex'));
+				var nextIndex = AdvanceStringIndex(S, thisIndex, fullUnicode);
+				Set(R, 'lastIndex', nextIndex, true);
 			}
-			return ES.CreateIterResultObject(match, false);
+			return CreateIterResultObject(match, false);
 		}
 		hidden.set(O, '[[Done]]', true);
-		return ES.CreateIterResultObject(match, false);
+		return CreateIterResultObject(match, false);
 	}
 });
 if (hasSymbols) {

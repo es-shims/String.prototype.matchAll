@@ -1,19 +1,25 @@
 'use strict';
 
-var ES = require('es-abstract/es2019');
+// var Construct = require('es-abstract/2019/Construct');
+var Get = require('es-abstract/2019/Get');
+var Set = require('es-abstract/2019/Set');
+var SpeciesConstructor = require('es-abstract/2019/SpeciesConstructor');
+var ToLength = require('es-abstract/2019/ToLength');
+var ToString = require('es-abstract/2019/ToString');
+var Type = require('es-abstract/2019/Type');
 var flagsGetter = require('regexp.prototype.flags');
 
 var RegExpStringIterator = require('./helpers/RegExpStringIterator');
 var OrigRegExp = RegExp;
 
 var CreateRegExpStringIterator = function CreateRegExpStringIterator(R, S, global, fullUnicode) {
-	if (ES.Type(S) !== 'String') {
+	if (Type(S) !== 'String') {
 		throw new TypeError('"S" value must be a String');
 	}
-	if (ES.Type(global) !== 'Boolean') {
+	if (Type(global) !== 'Boolean') {
 		throw new TypeError('"global" value must be a Boolean');
 	}
-	if (ES.Type(fullUnicode) !== 'Boolean') {
+	if (Type(fullUnicode) !== 'Boolean') {
 		throw new TypeError('"fullUnicode" value must be a Boolean');
 	}
 
@@ -26,7 +32,7 @@ var supportsConstructingWithFlags = 'flags' in RegExp.prototype;
 var constructRegexWithFlags = function constructRegex(C, R) {
 	var matcher;
 	// workaround for older engines that lack RegExp.prototype.flags
-	var flags = 'flags' in R ? ES.Get(R, 'flags') : ES.ToString(flagsGetter(R));
+	var flags = 'flags' in R ? Get(R, 'flags') : ToString(flagsGetter(R));
 	if (supportsConstructingWithFlags && typeof flags === 'string') {
 		matcher = new C(R, flags);
 	} else if (C === OrigRegExp) {
@@ -40,20 +46,20 @@ var constructRegexWithFlags = function constructRegex(C, R) {
 
 var regexMatchAll = function SymbolMatchAll(string) {
 	var R = this;
-	if (ES.Type(R) !== 'Object') {
+	if (Type(R) !== 'Object') {
 		throw new TypeError('"this" value must be an Object');
 	}
-	var S = ES.ToString(string);
-	var C = ES.SpeciesConstructor(R, OrigRegExp);
+	var S = ToString(string);
+	var C = SpeciesConstructor(R, OrigRegExp);
 
 	var tmp = constructRegexWithFlags(C, R);
-	// var flags = ES.ToString(ES.Get(R, 'flags'));
+	// var flags = ToString(Get(R, 'flags'));
 	var flags = tmp.flags;
-	// var matcher = ES.Construct(C, [R, flags]);
+	// var matcher = Construct(C, [R, flags]);
 	var matcher = tmp.matcher;
 
-	var lastIndex = ES.ToLength(ES.Get(R, 'lastIndex'));
-	ES.Set(matcher, 'lastIndex', lastIndex, true);
+	var lastIndex = ToLength(Get(R, 'lastIndex'));
+	Set(matcher, 'lastIndex', lastIndex, true);
 	var global = flags.indexOf('g') > -1;
 	var fullUnicode = flags.indexOf('u') > -1;
 	return CreateRegExpStringIterator(matcher, S, global, fullUnicode);

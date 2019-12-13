@@ -1,6 +1,11 @@
 'use strict';
 
-var ES = require('es-abstract/es2019');
+var Call = require('es-abstract/2019/Call');
+var Get = require('es-abstract/2019/Get');
+var GetMethod = require('es-abstract/2019/GetMethod');
+var IsRegExp = require('es-abstract/2019/IsRegExp');
+var ToString = require('es-abstract/2019/ToString');
+var RequireObjectCoercible = require('es-abstract/2019/RequireObjectCoercible');
 var callBound = require('es-abstract/helpers/callBound');
 var hasSymbols = require('has-symbols')();
 var flagsGetter = require('regexp.prototype.flags');
@@ -12,40 +17,40 @@ var regexpMatchAllPolyfill = require('./polyfill-regexp-matchall');
 var getMatcher = function getMatcher(regexp) { // eslint-disable-line consistent-return
 	var matcherPolyfill = regexpMatchAllPolyfill();
 	if (hasSymbols && typeof Symbol.matchAll === 'symbol') {
-		var matcher = ES.GetMethod(regexp, Symbol.matchAll);
+		var matcher = GetMethod(regexp, Symbol.matchAll);
 		if (matcher === RegExp.prototype[Symbol.matchAll] && matcher !== matcherPolyfill) {
 			return matcherPolyfill;
 		}
 		return matcher;
 	}
 	// fallback for pre-Symbol.matchAll environments
-	if (ES.IsRegExp(regexp)) {
+	if (IsRegExp(regexp)) {
 		return matcherPolyfill;
 	}
 };
 
 module.exports = function matchAll(regexp) {
-	var O = ES.RequireObjectCoercible(this);
+	var O = RequireObjectCoercible(this);
 
 	if (typeof regexp !== 'undefined' && regexp !== null) {
-		var isRegExp = ES.IsRegExp(regexp);
+		var isRegExp = IsRegExp(regexp);
 		if (isRegExp) {
 			// workaround for older engines that lack RegExp.prototype.flags
-			var flags = 'flags' in regexp ? ES.Get(regexp, 'flags') : flagsGetter(regexp);
-			ES.RequireObjectCoercible(flags);
-			if ($indexOf(ES.ToString(flags), 'g') < 0) {
+			var flags = 'flags' in regexp ? Get(regexp, 'flags') : flagsGetter(regexp);
+			RequireObjectCoercible(flags);
+			if ($indexOf(ToString(flags), 'g') < 0) {
 				throw new TypeError('matchAll requires a global regular expression');
 			}
 		}
 
 		var matcher = getMatcher(regexp);
 		if (typeof matcher !== 'undefined') {
-			return ES.Call(matcher, regexp, [O]);
+			return Call(matcher, regexp, [O]);
 		}
 	}
 
-	var S = ES.ToString(O);
-	// var rx = ES.RegExpCreate(regexp, 'g');
+	var S = ToString(O);
+	// var rx = RegExpCreate(regexp, 'g');
 	var rx = new RegExp(regexp, 'g');
-	return ES.Call(getMatcher(rx), rx, [S]);
+	return Call(getMatcher(rx), rx, [S]);
 };
