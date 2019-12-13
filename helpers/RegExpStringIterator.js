@@ -13,7 +13,7 @@ var ToString = require('es-abstract/2019/ToString');
 var Type = require('es-abstract/2019/Type');
 var hasSymbols = require('has-symbols')();
 
-var hidden = require('./hidden')();
+var hidden = require('side-channel')();
 var undefined;
 
 var RegExpStringIterator = function RegExpStringIterator(R, S, global, fullUnicode) {
