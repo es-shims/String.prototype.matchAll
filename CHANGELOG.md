@@ -1,3 +1,10 @@
+4.0.2 / 2019-12-22
+==================
+  * [Refactor] use `internal-slot`
+  * [Refactor] use `side-channel` instead of "hidden" helper
+  * [Deps] update `es-abstract`, `internal-slot`, `regexp.prototype.flags`, `side-channel`
+  * [Dev Deps] update `eslint`, `@ljharb/eslint-config`, `tape`
+
 4.0.1 / 2019-12-13
 ==================
   * [Refactor] use split-up `es-abstract` (61% bundle size decrease)
