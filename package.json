@@ -48,10 +48,10 @@
 	"devDependencies": {
 		"@es-shims/api": "^2.1.2",
 		"@ljharb/eslint-config": "^16.0.0",
-		"es5-shim": "^4.5.13",
+		"es5-shim": "^4.5.14",
 		"es6-shim": "^0.35.5",
 		"eslint": "^6.8.0",
-		"evalmd": "0.0.19",
+		"evalmd": "^0.0.19",
 		"foreach": "^2.0.5",
 		"function-bind": "^1.1.1",
 		"functions-have-names": "^1.2.1",
@@ -59,6 +59,6 @@
 		"object.assign": "^4.1.0",
 		"object.entries": "^1.1.1",
 		"safe-publish-latest": "^1.1.4",
-		"tape": "^5.0.0-next.4"
+		"tape": "^5.0.0-next.5"
 	}
 }
