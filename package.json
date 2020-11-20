@@ -6,13 +6,12 @@
 	"scripts": {
 		"prepublish": "safe-publish-latest",
 		"pretest": "npm run lint",
-		"test": "es-shim-api --bound && npm run tests-only",
+		"test": "npm run tests-only",
 		"posttest": "npx aud --production",
-		"tests-only": "npm run test:module && npm run test:shim",
-		"test:module": "node test",
-		"test:shim": "node test/shimmed",
+		"tests-only": "tape 'test/**/*.js'",
 		"prelint": "evalmd *.md",
-		"lint": "eslint ."
+		"lint": "eslint .",
+		"postlint": "es-shim-api --bound"
 	},
 	"repository": {
 		"type": "git",
