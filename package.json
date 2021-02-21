@@ -1,6 +1,6 @@
 {
 	"name": "string.prototype.matchall",
-	"version": "4.0.3",
+	"version": "4.0.4",
 	"description": "Spec-compliant polyfill for String.prototype.matchAll ESnext proposal.",
 	"main": "index.js",
 	"scripts": {
