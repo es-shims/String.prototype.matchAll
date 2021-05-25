@@ -1,12 +1,25 @@
-4.0.5 / 2021-05-25
-==================
-  * [Refactor] use `get-intrinsic` directly
-  * [readme] update badges, spec year
-  * [Deps] update `es-abstract`, `has-symbols`
-  * [Dev Deps] update `eslint`, `@ljharb/eslint-config`, `aud`, `object-inspect`, `tape`
-  * [meta] use `prepublishOnly` script for npm 7+
-  * [actions] update workflows
-  * [actions] use `node/install` instead of `node/run`; use `codecov` action
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [v4.0.5](https://github.com/ljharb/String.prototype.matchAll/compare/v4.0.4...v4.0.5) - 2021-05-25
+
+### Commits
+
+- [actions] use `node/install` instead of `node/run`; use `codecov` action [`a6a7af2`](https://github.com/ljharb/String.prototype.matchAll/commit/a6a7af2304add692d429a8a5a4f44914d5b4a9b6)
+- [readme] update badges, spec year [`9532ccc`](https://github.com/ljharb/String.prototype.matchAll/commit/9532ccc593cd686232717287b94be9abf497198f)
+- [Dev Deps] update `eslint`, `@ljharb/eslint-config`, `aud`, `object-inspect` [`8ea3e71`](https://github.com/ljharb/String.prototype.matchAll/commit/8ea3e71d40716fa857743a315df243270e53a49e)
+- [Deps] update `es-abstract`, `has-symbols` [`e906e75`](https://github.com/ljharb/String.prototype.matchAll/commit/e906e7583b3f1e4efc3fc1f87fb0bd5742191a5e)
+- [Dev Deps] update `eslint`, `tape` [`fcf2270`](https://github.com/ljharb/String.prototype.matchAll/commit/fcf227050a83bac350c7e451f57151da80783523)
+- [actions] update workflows [`ba642c5`](https://github.com/ljharb/String.prototype.matchAll/commit/ba642c573af408f6106666d9a3f9261b1c99b505)
+- [Refactor] use `get-intrinsic` directly [`fca987f`](https://github.com/ljharb/String.prototype.matchAll/commit/fca987f8b1abd375d752d081ee4516a6b8f6c912)
+- [meta] use `prepublishOnly` script for npm 7+ [`4c5ba45`](https://github.com/ljharb/String.prototype.matchAll/commit/4c5ba452acf2ae5af9792a58f01e7cb9b839a5c3)
+- [Deps] update `es-abstract` [`39d34df`](https://github.com/ljharb/String.prototype.matchAll/commit/39d34df9a615fe723411dd3fc91be49be6521ef1)
+
+<!-- auto-changelog-above -->
 
 4.0.4 / 2021-02-21
 ==================
