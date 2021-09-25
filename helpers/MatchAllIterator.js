@@ -1,5 +1,6 @@
 'use strict';
 
+var CreateRegExpStringIterator = require('es-abstract/2020/CreateRegExpStringIterator');
 var Get = require('es-abstract/2020/Get');
 var IsRegExp = require('es-abstract/2020/IsRegExp');
 var Set = require('es-abstract/2020/Set');
@@ -9,7 +10,6 @@ var ToLength = require('es-abstract/2020/ToLength');
 var ToString = require('es-abstract/2020/ToString');
 var flagsGetter = require('regexp.prototype.flags');
 
-var RegExpStringIterator = require('./RegExpStringIterator');
 var OrigRegExp = RegExp;
 
 module.exports = function MatchAllIterator(R, O) {
@@ -40,5 +40,5 @@ module.exports = function MatchAllIterator(R, O) {
 			throw new TypeError('Assertion failed: newly constructed RegExp had a lastIndex !== 0. Please report this!');
 		}
 	}
-	return new RegExpStringIterator(matcher, S, global, fullUnicode);
+	return CreateRegExpStringIterator(matcher, S, global, fullUnicode);
 };
