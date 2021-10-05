@@ -1,13 +1,13 @@
 'use strict';
 
-// var Construct = require('es-abstract/2020/Construct');
-var CreateRegExpStringIterator = require('es-abstract/2020/CreateRegExpStringIterator');
-var Get = require('es-abstract/2020/Get');
-var Set = require('es-abstract/2020/Set');
-var SpeciesConstructor = require('es-abstract/2020/SpeciesConstructor');
-var ToLength = require('es-abstract/2020/ToLength');
-var ToString = require('es-abstract/2020/ToString');
-var Type = require('es-abstract/2020/Type');
+// var Construct = require('es-abstract/2021/Construct');
+var CreateRegExpStringIterator = require('es-abstract/2021/CreateRegExpStringIterator');
+var Get = require('es-abstract/2021/Get');
+var Set = require('es-abstract/2021/Set');
+var SpeciesConstructor = require('es-abstract/2021/SpeciesConstructor');
+var ToLength = require('es-abstract/2021/ToLength');
+var ToString = require('es-abstract/2021/ToString');
+var Type = require('es-abstract/2021/Type');
 var flagsGetter = require('regexp.prototype.flags');
 
 var OrigRegExp = RegExp;
