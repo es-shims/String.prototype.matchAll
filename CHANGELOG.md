@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v4.0.6](https://github.com/ljharb/String.prototype.matchAll/compare/v4.0.5...v4.0.6) - 2021-10-04
+
+### Commits
+
+- [Refactor] use `CreateRegExpStringIterator` from `es-abstract` [`5c2cf33`](https://github.com/ljharb/String.prototype.matchAll/commit/5c2cf338f3568d696c978f9e1e51903d229b5fef)
+- [patch] remove unused helpers [`280f47e`](https://github.com/ljharb/String.prototype.matchAll/commit/280f47ee3a36e7830e37192b8c6a958026f779f6)
+- [meta] add `auto-changelog` [`2d26eda`](https://github.com/ljharb/String.prototype.matchAll/commit/2d26eda3a451cd42a4fea8028f1fb237f330bcee)
+- [Deps] update `es-abstract` [`857c8b0`](https://github.com/ljharb/String.prototype.matchAll/commit/857c8b032e6e9cde53af54aec7d91d75cb0cd262)
+- [Dev Deps] update `eslint`, `@ljharb/eslint-config`, `@es-shims/api`, `es5-shim`, `object-inspect`, `object.entries`, `tape` [`9349ea2`](https://github.com/ljharb/String.prototype.matchAll/commit/9349ea2382066187aae146a2c1cf456c5473cf32)
+
 ## [v4.0.5](https://github.com/ljharb/String.prototype.matchAll/compare/v4.0.4...v4.0.5) - 2021-05-25
 
 ### Commits
