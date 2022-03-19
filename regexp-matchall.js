@@ -9,6 +9,9 @@ var ToLength = require('es-abstract/2021/ToLength');
 var ToString = require('es-abstract/2021/ToString');
 var Type = require('es-abstract/2021/Type');
 var flagsGetter = require('regexp.prototype.flags');
+var callBound = require('call-bind/callBound');
+
+var $indexOf = callBound('String.prototype.indexOf');
 
 var OrigRegExp = RegExp;
 
@@ -45,8 +48,8 @@ var regexMatchAll = function SymbolMatchAll(string) {
 
 	var lastIndex = ToLength(Get(R, 'lastIndex'));
 	Set(matcher, 'lastIndex', lastIndex, true);
-	var global = flags.indexOf('g') > -1;
-	var fullUnicode = flags.indexOf('u') > -1;
+	var global = $indexOf(flags, 'g') > -1;
+	var fullUnicode = $indexOf(flags, 'u') > -1;
 	return CreateRegExpStringIterator(matcher, S, global, fullUnicode);
 };
 
