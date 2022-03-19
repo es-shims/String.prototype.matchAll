@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v4.0.7](https://github.com/ljharb/String.prototype.matchAll/compare/v4.0.6...v4.0.7) - 2022-03-18
+
+### Commits
+
+- [actions] reuse common workflows [`798d359`](https://github.com/ljharb/String.prototype.matchAll/commit/798d359ac36a7543ab4cb4b14f7544b7687d6a9b)
+- [Dev Deps] update `eslint`, `@ljharb/eslint-config`, `aud`, `auto-changelog`, `es5-shim`, `object-inspect`, `tape` [`8733fa4`](https://github.com/ljharb/String.prototype.matchAll/commit/8733fa45b7bf5115cb08ba6d4866b14f6b637919)
+- [Dev Deps] update `eslint`, `@ljharb/eslint-config`, `@es-shims/api`, `safe-publish-latest`, `tape` [`2f0ac7d`](https://github.com/ljharb/String.prototype.matchAll/commit/2f0ac7de6a6b585f1bd6a32c0426d27926366334)
+- [actions] update codecov uploader [`40ea9ce`](https://github.com/ljharb/String.prototype.matchAll/commit/40ea9ce1b5a4f8bfbe5637e4edb63e693ff78020)
+- [Robustness] use call-bound `indexOf` [`b035fdc`](https://github.com/ljharb/String.prototype.matchAll/commit/b035fdcd6b65263b41ad24786cde4217083c13db)
+- [Deps] update `has-symbols`, `regexp.prototype.flags` [`95768f2`](https://github.com/ljharb/String.prototype.matchAll/commit/95768f258a8d30630f56ec862b2e356c980f57c6)
+
 ## [v4.0.6](https://github.com/ljharb/String.prototype.matchAll/compare/v4.0.5...v4.0.6) - 2021-10-04
 
 ### Commits
