@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v4.0.9](https://github.com/ljharb/String.prototype.matchAll/compare/v4.0.8...v4.0.9) - 2023-08-28
+
+### Commits
+
+- [Deps] update `define-properties`, `es-abstract`, `get-intrinsic`, `internal-slot`, `regexp.prototype.flags` [`819a5dd`](https://github.com/ljharb/String.prototype.matchAll/commit/819a5ddcef535b27ad76b817a58ff96847f5585b)
+- [Dev Deps] update `@es-shims/api`, `@ljharb/eslint-config`, `aud`, `es6-shim`, `object-inspect`, `object.entries`, `tape` [`6f479ee`](https://github.com/ljharb/String.prototype.matchAll/commit/6f479ee4e4263e7ce9932cfcc24be5707dcf0edc)
+
 ## [v4.0.8](https://github.com/ljharb/String.prototype.matchAll/compare/v4.0.7...v4.0.8) - 2022-11-07
 
 ### Commits
