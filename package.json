@@ -50,6 +50,7 @@
 		"has-symbols": "^1.0.3",
 		"internal-slot": "^1.0.5",
 		"regexp.prototype.flags": "^1.5.0",
+		"set-function-name": "^2.0.0",
 		"side-channel": "^1.0.4"
 	},
 	"devDependencies": {
