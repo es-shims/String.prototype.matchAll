@@ -1,10 +1,10 @@
 'use strict';
 
-var Call = require('es-abstract/2023/Call');
-var Get = require('es-abstract/2023/Get');
-var GetMethod = require('es-abstract/2023/GetMethod');
-var IsRegExp = require('es-abstract/2023/IsRegExp');
-var ToString = require('es-abstract/2023/ToString');
+var Call = require('es-abstract/2024/Call');
+var Get = require('es-abstract/2024/Get');
+var GetMethod = require('es-abstract/2024/GetMethod');
+var IsRegExp = require('es-abstract/2024/IsRegExp');
+var ToString = require('es-abstract/2024/ToString');
 var RequireObjectCoercible = require('es-object-atoms/RequireObjectCoercible');
 var callBound = require('call-bind/callBound');
 var hasSymbols = require('has-symbols')();
