@@ -9,7 +9,9 @@ var RequireObjectCoercible = require('es-object-atoms/RequireObjectCoercible');
 var callBound = require('call-bind/callBound');
 var hasSymbols = require('has-symbols')();
 var flagsGetter = require('regexp.prototype.flags');
+var GetIntrinsic = require('get-intrinsic');
 
+var $RegExp = GetIntrinsic('%RegExp%');
 var $indexOf = callBound('String.prototype.indexOf');
 
 var regexpMatchAllPolyfill = require('./polyfill-regexp-matchall');
@@ -18,7 +20,7 @@ var getMatcher = function getMatcher(regexp) { // eslint-disable-line consistent
 	var matcherPolyfill = regexpMatchAllPolyfill();
 	if (hasSymbols && typeof Symbol.matchAll === 'symbol') {
 		var matcher = GetMethod(regexp, Symbol.matchAll);
-		if (matcher === RegExp.prototype[Symbol.matchAll] && matcher !== matcherPolyfill) {
+		if (matcher === $RegExp.prototype[Symbol.matchAll] && matcher !== matcherPolyfill) {
 			return matcherPolyfill;
 		}
 		return matcher;
@@ -51,6 +53,6 @@ module.exports = function matchAll(regexp) {
 
 	var S = ToString(O);
 	// var rx = RegExpCreate(regexp, 'g');
-	var rx = new RegExp(regexp, 'g');
+	var rx = new $RegExp(regexp, 'g');
 	return Call(getMatcher(rx), rx, [S]);
 };

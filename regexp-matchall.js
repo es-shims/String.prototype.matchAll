@@ -11,12 +11,13 @@ var Type = require('es-abstract/2023/Type');
 var flagsGetter = require('regexp.prototype.flags');
 var setFunctionName = require('set-function-name');
 var callBound = require('call-bind/callBound');
+var GetIntrinsic = require('get-intrinsic');
 
 var $indexOf = callBound('String.prototype.indexOf');
 
-var OrigRegExp = RegExp;
+var OrigRegExp = GetIntrinsic('%RegExp%');
 
-var supportsConstructingWithFlags = 'flags' in RegExp.prototype;
+var supportsConstructingWithFlags = 'flags' in OrigRegExp.prototype;
 
 var constructRegexWithFlags = function constructRegex(C, R) {
 	var matcher;
