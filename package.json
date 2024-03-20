@@ -48,6 +48,7 @@
 		"es-abstract": "^1.22.1",
 		"es-object-atoms": "^1.0.0",
 		"get-intrinsic": "^1.2.1",
+		"gopd": "^1.0.1",
 		"has-symbols": "^1.0.3",
 		"internal-slot": "^1.0.5",
 		"regexp.prototype.flags": "^1.5.0",
