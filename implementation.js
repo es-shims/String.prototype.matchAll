@@ -10,6 +10,7 @@ var callBound = require('call-bind/callBound');
 var hasSymbols = require('has-symbols')();
 var flagsGetter = require('regexp.prototype.flags');
 var GetIntrinsic = require('get-intrinsic');
+var $TypeError = require('es-errors/type');
 
 var $RegExp = GetIntrinsic('%RegExp%');
 var $indexOf = callBound('String.prototype.indexOf');
@@ -41,7 +42,7 @@ module.exports = function matchAll(regexp) {
 			var flags = 'flags' in regexp ? Get(regexp, 'flags') : flagsGetter(regexp);
 			RequireObjectCoercible(flags);
 			if ($indexOf(ToString(flags), 'g') < 0) {
-				throw new TypeError('matchAll requires a global regular expression');
+				throw new $TypeError('matchAll requires a global regular expression');
 			}
 		}
 

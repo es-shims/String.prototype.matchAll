@@ -12,6 +12,7 @@ var flagsGetter = require('regexp.prototype.flags');
 var setFunctionName = require('set-function-name');
 var callBound = require('call-bind/callBound');
 var GetIntrinsic = require('get-intrinsic');
+var $TypeError = require('es-errors/type');
 
 var $indexOf = callBound('String.prototype.indexOf');
 
@@ -37,7 +38,7 @@ var constructRegexWithFlags = function constructRegex(C, R) {
 var regexMatchAll = setFunctionName(function SymbolMatchAll(string) {
 	var R = this;
 	if (Type(R) !== 'Object') {
-		throw new TypeError('"this" value must be an Object');
+		throw new $TypeError('"this" value must be an Object');
 	}
 	var S = ToString(string);
 	var C = SpeciesConstructor(R, OrigRegExp);
