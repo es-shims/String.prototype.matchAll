@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v4.0.12](https://github.com/ljharb/String.prototype.matchAll/compare/v4.0.11...v4.0.12) - 2024-12-19
+
+### Commits
+
+- [actions] split out node 10-20, and 20+ [`ec6bcb6`](https://github.com/ljharb/String.prototype.matchAll/commit/ec6bcb6ff1af451de6ca7fddafe789ba7d2deeff)
+- [Deps] update `call-bind`, `es-abstract`, `get-intrinsic`, `gopd`, `has-symbols`, `internal-slot`, `regexp.prototype.flags`, `side-channel` [`993a80c`](https://github.com/ljharb/String.prototype.matchAll/commit/993a80c0acdcf2a1ca0035801ee81ce05db226d7)
+- [Dev Deps] update `@es-shims/api`, `@ljharb/eslint-config`, `auto-changelog`, `mock-property`, `object-inspect`, `object.assign`, `tape` [`50e0c52`](https://github.com/ljharb/String.prototype.matchAll/commit/50e0c527292947681df9e876c7aa456a840e9a76)
+- [Refactor] use `call-bound` directly [`72c0fe1`](https://github.com/ljharb/String.prototype.matchAll/commit/72c0fe1964d3c26d63d2e5c0cfd27596bf44823d)
+- [Tests] replace `aud` with `npm audit` [`3a4bccb`](https://github.com/ljharb/String.prototype.matchAll/commit/3a4bccb517c3951016dda3ab645d9a4ccefc2226)
+- [readme] remove dead badges [`ae4bdb2`](https://github.com/ljharb/String.prototype.matchAll/commit/ae4bdb291f05e595d6119aa7d78827f6fdff2281)
+- [Dev Deps] add missing peer dep [`14ceede`](https://github.com/ljharb/String.prototype.matchAll/commit/14ceedee27fe8346ac1562fe17bcd8d752993c29)
+
 ## [v4.0.11](https://github.com/ljharb/String.prototype.matchAll/compare/v4.0.10...v4.0.11) - 2024-03-19
 
 ### Commits
