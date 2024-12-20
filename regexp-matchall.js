@@ -1,6 +1,6 @@
 'use strict';
 
-// var Construct = require('es-abstract/2023/Construct');
+// var Construct = require('es-abstract/2024/Construct');
 var CreateRegExpStringIterator = require('es-abstract/2024/CreateRegExpStringIterator');
 var Get = require('es-abstract/2024/Get');
 var Set = require('es-abstract/2024/Set');
@@ -10,7 +10,7 @@ var ToString = require('es-abstract/2024/ToString');
 var Type = require('es-abstract/2024/Type');
 var flagsGetter = require('regexp.prototype.flags');
 var setFunctionName = require('set-function-name');
-var callBound = require('call-bind/callBound');
+var callBound = require('call-bound');
 var GetIntrinsic = require('get-intrinsic');
 var $TypeError = require('es-errors/type');
 
