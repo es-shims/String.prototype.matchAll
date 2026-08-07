@@ -1,18 +1,18 @@
 'use strict';
 
-// var Construct = require('es-abstract/2024/Construct');
-var CreateRegExpStringIterator = require('es-abstract/2024/CreateRegExpStringIterator');
-var Get = require('es-abstract/2024/Get');
-var Set = require('es-abstract/2024/Set');
-var SpeciesConstructor = require('es-abstract/2024/SpeciesConstructor');
-var ToLength = require('es-abstract/2024/ToLength');
-var ToString = require('es-abstract/2024/ToString');
-var Type = require('es-abstract/2024/Type');
+// var Construct = require('es-abstract/2025/Construct');
+var CreateRegExpStringIterator = require('es-abstract/2025/CreateRegExpStringIterator');
+var Get = require('es-abstract/2025/Get');
+var Set = require('es-abstract/2025/Set');
+var SpeciesConstructor = require('es-abstract/2025/SpeciesConstructor');
+var ToLength = require('es-abstract/2025/ToLength');
+var ToString = require('es-abstract/2025/ToString');
 var flagsGetter = require('regexp.prototype.flags');
 var setFunctionName = require('set-function-name');
 var callBound = require('call-bound');
 var GetIntrinsic = require('get-intrinsic');
 var $TypeError = require('es-errors/type');
+var isObject = require('es-object-atoms/isObject');
 
 var $indexOf = callBound('String.prototype.indexOf');
 
@@ -37,7 +37,7 @@ var constructRegexWithFlags = function constructRegex(C, R) {
 
 var regexMatchAll = setFunctionName(function SymbolMatchAll(string) {
 	var R = this;
-	if (Type(R) !== 'Object') {
+	if (!isObject(R)) {
 		throw new $TypeError('"this" value must be an Object');
 	}
 	var S = ToString(string);
