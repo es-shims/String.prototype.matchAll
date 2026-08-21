@@ -6,9 +6,11 @@ var assign = require('object.assign');
 var define = require('define-properties');
 var entries = require('object.entries');
 var inspect = require('object-inspect');
+var hasSymbols = require('has-symbols')();
 
 var hasSticky = typeof (/a/).sticky === 'boolean';
 var hasGroups = 'groups' in (/a/).exec('a');
+var hasSymbolMatch = hasSymbols && typeof Symbol.match === 'symbol';
 
 var groups = function groups(matchObject) {
 	return hasGroups ? assign(matchObject, { groups: matchObject.groups }, matchObject) : matchObject;
@@ -117,6 +119,49 @@ module.exports = function (matchAll, regexMatchAll, t) {
 				function () { matchAll(str, regex); },
 				'undefined flags throws'
 			);
+			s2t.end();
+		});
+
+		st.test('with a throwing flags getter', { skip: !define.supportsDescriptors }, function (s2t) {
+			var str = 'aabc';
+
+			var regex = /[ac]/g;
+			Object.defineProperty(regex, 'flags', {
+				configurable: true,
+				get: function () { throw new EvalError('flags getter'); }
+			});
+			s2t['throws'](
+				function () { matchAll(str, regex); },
+				EvalError,
+				'a throwing "flags" getter on a global regex throws'
+			);
+
+			var nonGlobalRegex = /[ac]/;
+			Object.defineProperty(nonGlobalRegex, 'flags', {
+				configurable: true,
+				get: function () { throw new EvalError('flags getter'); }
+			});
+			s2t['throws'](
+				function () { matchAll(str, nonGlobalRegex); },
+				EvalError,
+				'a throwing "flags" getter on a non-global regex throws before the global check'
+			);
+
+			s2t.test('on a non-regex with `Symbol.match`', { skip: !hasSymbolMatch }, function (s3t) {
+				var fakeRegex = {};
+				fakeRegex[Symbol.match] = true;
+				Object.defineProperty(fakeRegex, 'flags', {
+					configurable: true,
+					get: function () { throw new EvalError('flags getter'); }
+				});
+				s3t['throws'](
+					function () { matchAll(str, fakeRegex); },
+					EvalError,
+					'a throwing "flags" getter on a `Symbol.match`-y object throws'
+				);
+				s3t.end();
+			});
+
 			s2t.end();
 		});
 
