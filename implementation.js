@@ -21,7 +21,7 @@ var getMatcher = function getMatcher(regexp) { // eslint-disable-line consistent
 	var matcherPolyfill = regexpMatchAllPolyfill();
 	if (hasSymbols && typeof Symbol.matchAll === 'symbol') {
 		var matcher = GetMethod(regexp, Symbol.matchAll);
-		if (matcher === $RegExp.prototype[Symbol.matchAll] && matcher !== matcherPolyfill) {
+		if (typeof matcher !== 'undefined' && matcher === $RegExp.prototype[Symbol.matchAll] && matcher !== matcherPolyfill) {
 			return matcherPolyfill;
 		}
 		return matcher;

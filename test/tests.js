@@ -93,6 +93,28 @@ module.exports = function (matchAll, regexMatchAll, t) {
 		st.end();
 	});
 
+	t.test('without `RegExp.prototype[Symbol.matchAll]`', { skip: !hasSymbols || typeof Symbol.matchAll !== 'symbol' }, function (st) {
+		var descriptor = Object.getOwnPropertyDescriptor(RegExp.prototype, Symbol.matchAll);
+		delete RegExp.prototype[Symbol.matchAll];
+		st.teardown(function () {
+			// eslint-disable-next-line no-extend-native
+			if (descriptor) { Object.defineProperty(RegExp.prototype, Symbol.matchAll, descriptor); }
+		});
+
+		st['throws'](
+			function () { matchAll('abc', /b/g); },
+			TypeError,
+			'a regex pattern throws, rather than substituting the polyfill matcher'
+		);
+		st['throws'](
+			function () { matchAll('abc', 'b'); },
+			TypeError,
+			'a string pattern throws, rather than substituting the polyfill matcher'
+		);
+
+		st.end();
+	});
+
 	t.test('ToString-able objects', function (st) {
 		var str = 'aabc';
 		var strObj = { toString: function () { return str; } };
