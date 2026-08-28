@@ -6,6 +6,7 @@
 	"rules": {
 		"complexity": [2, 12],
 		"func-name-matching": 0,
+		"func-style": [2, "declaration"],
 		"id-length": 0,
 		"max-nested-callbacks": [2, 3],
 		"max-params": [2, 4],

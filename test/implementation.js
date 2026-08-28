@@ -12,13 +12,13 @@ var runTests = require('./tests');
 
 var hasFlags = 'flags' in RegExp.prototype;
 
-var requireFresh = function requireFresh(id) {
+function requireFresh(id) {
 	var resolved = require.resolve(id);
 	delete require.cache[resolved];
 	var fresh = require(id); // eslint-disable-line global-require
 	delete require.cache[resolved];
 	return fresh;
-};
+}
 
 test('as a function', function (t) {
 	runTests(callBind(implementation), callBind(regexMatchAll), t);

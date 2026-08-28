@@ -19,7 +19,7 @@ var hasFlags = 'flags' in RegExp.prototype;
 var hasSymbolMatch = hasSymbols && typeof Symbol.match === 'symbol';
 
 // bounded, so a non-global regression reports a diff instead of hanging or throwing past the assertion
-var matchIndexes = function matchIndexes(iterator, max) {
+function matchIndexes(iterator, max) {
 	var indexes = [];
 	var result;
 	var i = 0;
@@ -29,13 +29,13 @@ var matchIndexes = function matchIndexes(iterator, max) {
 		i += 1;
 	} while (!result.done && i < (max || 6));
 	return indexes;
-};
+}
 
-var groups = function groups(matchObject) {
+function groups(matchObject) {
 	return hasGroups ? assign(matchObject, { groups: matchObject.groups }, matchObject) : matchObject;
-};
+}
 
-var arraySpread = function arraySpread(iterator) {
+function arraySpread(iterator) {
 	if (Array.isArray(iterator)) { return iterator; }
 	var result;
 	var values = [];
@@ -44,9 +44,9 @@ var arraySpread = function arraySpread(iterator) {
 		values.push(result);
 	} while (!result.done);
 	return values;
-};
+}
 
-var testResults = function (t, iterator, expectedResults, item) {
+function testResults(t, iterator, expectedResults, item) {
 	var prefix = arguments.length > 3 ? inspect(item) + ': ' : '';
 	var results = arraySpread(iterator);
 	var expecteds = arraySpread(expectedResults);
@@ -70,7 +70,7 @@ var testResults = function (t, iterator, expectedResults, item) {
 			});
 		});
 	});
-};
+}
 
 module.exports = function (matchAll, regexMatchAll, t) {
 	// computed here, not at module load: `getMatcher` re-reads `Symbol.matchAll` per call, and the shim installs it late
@@ -139,7 +139,7 @@ module.exports = function (matchAll, regexMatchAll, t) {
 	});
 
 	t.test('non-objects never have `Symbol.matchAll` looked up', { skip: !hasSymbolMatchAll }, function (st) {
-		var poison = function () { throw new EvalError('`Symbol.matchAll` was looked up on a non-object'); };
+		function poison() { throw new EvalError('`Symbol.matchAll` was looked up on a non-object'); }
 		st.teardown(mockProperty(String.prototype, Symbol.matchAll, { nonEnumerable: true, value: poison }));
 		st.teardown(mockProperty(Number.prototype, Symbol.matchAll, { nonEnumerable: true, value: poison }));
 		st.teardown(mockProperty(Boolean.prototype, Symbol.matchAll, { nonEnumerable: true, value: poison }));
@@ -368,7 +368,7 @@ module.exports = function (matchAll, regexMatchAll, t) {
 		});
 
 		st.test('with an inherited "flags" property, lacking `RegExp.prototype.flags`', { skip: hasFlags }, function (s2t) {
-			var Fake = function Fake() {};
+			function Fake() {}
 			Fake.prototype.flags = 'g';
 			Fake.prototype.source = 'b';
 			Fake.prototype.lastIndex = 0;

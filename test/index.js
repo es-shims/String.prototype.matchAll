@@ -13,17 +13,18 @@ var regexMatchAll = require('../regexp-matchall');
 
 var runTests = require('./tests');
 
-var canDetect = function canDetect() {
+function canDetect() {
 	return hasSymbols && typeof Symbol.matchAll === 'symbol' && define.supportsDescriptors;
-};
+}
 
-var throwsOnRegExpPrototype = function (pattern) {
+function throwsOnRegExpPrototype(pattern) {
 	if (pattern === RegExp.prototype) {
 		throw new TypeError('matchAll requires a global regular expression');
 	}
-};
+}
 
 var preES2026Calls = 0;
+// eslint-disable-next-line func-style
 var preES2026 = function matchAll(pattern) {
 	preES2026Calls += 1;
 	throwsOnRegExpPrototype(pattern);
@@ -34,6 +35,7 @@ var preES2026 = function matchAll(pattern) {
 	return [][Symbol.iterator]();
 };
 
+// eslint-disable-next-line func-style
 var compliant = function matchAll(pattern) {
 	throwsOnRegExpPrototype(pattern);
 	if (pattern !== null && (typeof pattern === 'object' || typeof pattern === 'function')) {
@@ -90,7 +92,7 @@ test('getPolyfill', function (t) {
 	});
 
 	t.test('restores `Boolean.prototype` after probing it', function (st) {
-		var sentinel = function () { return [][Symbol.iterator](); };
+		function sentinel() { return [][Symbol.iterator](); }
 		st.teardown(mockProperty(Boolean.prototype, Symbol.matchAll, { nonEnumerable: true, value: sentinel }));
 		st.teardown(mockProperty(String.prototype, 'matchAll', { nonEnumerable: true, value: preES2026 }));
 

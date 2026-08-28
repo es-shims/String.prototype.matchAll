@@ -12,7 +12,7 @@ var callBoundImplementation = callBind(implementation);
 
 var $defineProperty = Object.defineProperty;
 
-var looksUpMatcherOnPrimitives = function looksUpMatcherOnPrimitives(matchAll) {
+function looksUpMatcherOnPrimitives(matchAll) {
 	if (!hasSymbols || typeof Symbol.matchAll !== 'symbol' || !gOPD || !$defineProperty) {
 		return false;
 	}
@@ -46,7 +46,7 @@ var looksUpMatcherOnPrimitives = function looksUpMatcherOnPrimitives(matchAll) {
 	} catch (e) { /**/ }
 
 	return looked;
-};
+}
 
 var wrapped;
 var wrappedNative;
@@ -56,7 +56,7 @@ var wrappedNative;
  * only a primitive pattern, which it inspects and the spec does not, is routed through the implementation.
  * memoized so repeated `getPolyfill()` calls keep returning the same function.
  */
-var wrapNative = function wrapNative(nativeMatchAll) {
+function wrapNative(nativeMatchAll) {
 	if (wrappedNative !== nativeMatchAll) {
 		wrappedNative = nativeMatchAll;
 		var callBoundNative = callBind(nativeMatchAll);
@@ -67,7 +67,7 @@ var wrapNative = function wrapNative(nativeMatchAll) {
 		}, 'matchAll', true);
 	}
 	return wrapped;
-};
+}
 
 module.exports = function getPolyfill() {
 	if (String.prototype.matchAll) {

@@ -25,7 +25,7 @@ var supportsFlags = hasFlagsGetter && (/a/mig).flags === 'gim';
 
 var regexpMatchAllPolyfill = require('./polyfill-regexp-matchall');
 
-var getMatcher = function getMatcher(regexp) { // eslint-disable-line consistent-return
+function getMatcher(regexp) { // eslint-disable-line consistent-return
 	var matcherPolyfill = regexpMatchAllPolyfill();
 	if (hasSymbols && typeof Symbol.matchAll === 'symbol') {
 		var matcher = GetMethod(regexp, Symbol.matchAll);
@@ -38,7 +38,7 @@ var getMatcher = function getMatcher(regexp) { // eslint-disable-line consistent
 	if (IsRegExp(regexp)) {
 		return matcherPolyfill;
 	}
-};
+}
 
 module.exports = function matchAll(regexp) {
 	var O = RequireObjectCoercible(this);

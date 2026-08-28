@@ -22,7 +22,7 @@ var OrigRegExp = GetIntrinsic('%RegExp%');
 var hasFlagsGetter = 'flags' in OrigRegExp.prototype;
 var supportsFlags = hasFlagsGetter && (/a/mig).flags === 'gim';
 
-var constructRegexWithFlags = function constructRegex(C, R) {
+function constructRegexWithFlags(C, R) {
 	var matcher;
 	/*
 	 * workaround for older engines that lack RegExp.prototype.flags, or that have a buggy one:
@@ -39,7 +39,7 @@ var constructRegexWithFlags = function constructRegex(C, R) {
 		matcher = new C(R, flags);
 	}
 	return { flags: flags, matcher: matcher };
-};
+}
 
 var regexMatchAll = setFunctionName(function SymbolMatchAll(string) {
 	var R = this;
