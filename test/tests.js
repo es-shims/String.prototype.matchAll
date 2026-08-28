@@ -7,10 +7,12 @@ var define = require('define-properties');
 var entries = require('object.entries');
 var inspect = require('object-inspect');
 var hasSymbols = require('has-symbols')();
+var mockProperty = require('mock-property');
 
 var hasFlags = 'flags' in RegExp.prototype;
 var hasSticky = typeof (/a/).sticky === 'boolean';
 var hasGroups = 'groups' in (/a/).exec('a');
+// deliberately load-time: es-abstract captures `%Symbol.match%` once, when it is first required, before `es6-shim` runs
 var hasSymbolMatch = hasSymbols && typeof Symbol.match === 'symbol';
 
 // bounded, so a non-global regression reports a diff instead of hanging or throwing past the assertion
@@ -68,6 +70,8 @@ var testResults = function (t, iterator, expectedResults, item) {
 };
 
 module.exports = function (matchAll, regexMatchAll, t) {
+	// computed here, not at module load: `getMatcher` re-reads `Symbol.matchAll` per call, and the shim installs it late
+	var hasSymbolMatchAll = hasSymbols && typeof Symbol.matchAll === 'symbol';
 	var hasUnicodeSets = 'unicodeSets' in RegExp.prototype;
 
 	t.test('non-regexes', function (st) {
@@ -127,6 +131,20 @@ module.exports = function (matchAll, regexMatchAll, t) {
 			TypeError,
 			'a string pattern throws, rather than substituting the polyfill matcher'
 		);
+
+		st.end();
+	});
+
+	t.test('non-objects never have `Symbol.matchAll` looked up', { skip: !hasSymbolMatchAll }, function (st) {
+		var poison = function () { throw new EvalError('`Symbol.matchAll` was looked up on a non-object'); };
+		st.teardown(mockProperty(String.prototype, Symbol.matchAll, { nonEnumerable: true, value: poison }));
+		st.teardown(mockProperty(Number.prototype, Symbol.matchAll, { nonEnumerable: true, value: poison }));
+		st.teardown(mockProperty(Boolean.prototype, Symbol.matchAll, { nonEnumerable: true, value: poison }));
+
+		var str = 'aabcaba';
+		st.doesNotThrow(function () { matchAll(str, 'a'); }, 'a string pattern does not consult `String.prototype[Symbol.matchAll]`');
+		st.doesNotThrow(function () { matchAll(str, 2); }, 'a number pattern does not consult `Number.prototype[Symbol.matchAll]`');
+		st.doesNotThrow(function () { matchAll(str, true); }, 'a boolean pattern does not consult `Boolean.prototype[Symbol.matchAll]`');
 
 		st.end();
 	});

@@ -5,6 +5,7 @@ var Get = require('es-abstract/2025/Get');
 var GetMethod = require('es-abstract/2025/GetMethod');
 var IsRegExp = require('es-abstract/2025/IsRegExp');
 var ToString = require('es-abstract/2025/ToString');
+var isObject = require('es-object-atoms/isObject');
 var RequireObjectCoercible = require('es-object-atoms/RequireObjectCoercible');
 var callBound = require('call-bound');
 var hasSymbols = require('has-symbols')();
@@ -35,7 +36,7 @@ var getMatcher = function getMatcher(regexp) { // eslint-disable-line consistent
 module.exports = function matchAll(regexp) {
 	var O = RequireObjectCoercible(this);
 
-	if (typeof regexp !== 'undefined' && regexp !== null) {
+	if (isObject(regexp)) {
 		var isRegExp = IsRegExp(regexp);
 		if (isRegExp) {
 			// workaround for older engines that lack RegExp.prototype.flags
