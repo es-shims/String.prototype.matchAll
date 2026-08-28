@@ -8,6 +8,7 @@ var entries = require('object.entries');
 var inspect = require('object-inspect');
 var hasSymbols = require('has-symbols')();
 
+var hasFlags = 'flags' in RegExp.prototype;
 var hasSticky = typeof (/a/).sticky === 'boolean';
 var hasGroups = 'groups' in (/a/).exec('a');
 var hasSymbolMatch = hasSymbols && typeof Symbol.match === 'symbol';
@@ -246,6 +247,30 @@ module.exports = function (matchAll, regexMatchAll, t) {
 			testResults(s2t, matchAll(str, regex), expectedResults);
 			s2t.end();
 		});
+	});
+
+	t.test('#[Symbol.matchAll]', function (st) {
+		st.test('stringifies "flags" exactly once', { skip: !define.supportsDescriptors || !hasFlags }, function (s2t) {
+			var str = 'abc';
+			var count = 0;
+			var regex = /b/;
+			Object.defineProperty(regex, 'flags', {
+				configurable: true,
+				value: { toString: function () { count += 1; return 'g'; } }
+			});
+
+			var iterator = regexMatchAll(regex, str);
+			s2t.equal(count, 1, '"flags" is stringified exactly once');
+
+			var expectedResults = [
+				{ value: assign(['b'], groups({ index: 1, input: str })), done: false },
+				{ value: undefined, done: true }
+			];
+			testResults(s2t, iterator, expectedResults);
+			s2t.end();
+		});
+
+		st.end();
 	});
 
 	t.test('returns an iterator', function (st) {

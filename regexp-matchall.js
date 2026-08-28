@@ -23,8 +23,8 @@ var supportsConstructingWithFlags = 'flags' in OrigRegExp.prototype;
 var constructRegexWithFlags = function constructRegex(C, R) {
 	var matcher;
 	// workaround for older engines that lack RegExp.prototype.flags
-	var flags = 'flags' in R ? Get(R, 'flags') : ToString(flagsGetter(R));
-	if (supportsConstructingWithFlags && typeof flags === 'string') {
+	var flags = ToString('flags' in R ? Get(R, 'flags') : flagsGetter(R));
+	if (supportsConstructingWithFlags) {
 		matcher = new C(R, flags);
 	} else if (C === OrigRegExp) {
 		// workaround for older engines that can not construct a RegExp with flags
