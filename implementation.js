@@ -15,6 +15,10 @@ var $TypeError = require('es-errors/type');
 
 var $RegExp = GetIntrinsic('%RegExp%');
 var $indexOf = callBound('String.prototype.indexOf');
+var $hasOwn = callBound('Object.prototype.hasOwnProperty');
+
+var hasFlagsGetter = 'flags' in $RegExp.prototype;
+var supportsFlags = hasFlagsGetter && (/a/mig).flags === 'gim';
 
 var regexpMatchAllPolyfill = require('./polyfill-regexp-matchall');
 
@@ -39,8 +43,12 @@ module.exports = function matchAll(regexp) {
 	if (isObject(regexp)) {
 		var isRegExp = IsRegExp(regexp);
 		if (isRegExp) {
-			// workaround for older engines that lack RegExp.prototype.flags
-			var flags = 'flags' in regexp ? Get(regexp, 'flags') : flagsGetter(regexp);
+			/*
+			 * workaround for older engines that lack RegExp.prototype.flags, or that have a buggy one:
+			 * with no getter to be fooled by, trust the whole chain; with a broken one, trust only own properties
+			 */
+			var readFlags = supportsFlags || (hasFlagsGetter ? $hasOwn(regexp, 'flags') : 'flags' in regexp);
+			var flags = readFlags ? Get(regexp, 'flags') : flagsGetter(regexp);
 			RequireObjectCoercible(flags);
 			if ($indexOf(ToString(flags), 'g') < 0) {
 				throw new $TypeError('matchAll requires a global regular expression');

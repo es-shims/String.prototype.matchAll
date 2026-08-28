@@ -9,10 +9,13 @@ var inspect = require('object-inspect');
 var hasSymbols = require('has-symbols')();
 var mockProperty = require('mock-property');
 
+/*
+ * deliberately load-time: these must match what the modules under test saw when *they* were required, before
+ * `es6-shim` runs - `supportsFlags` and es-abstract's `%Symbol.match%` are both captured once, at require time.
+ */
 var hasFlags = 'flags' in RegExp.prototype;
 var hasSticky = typeof (/a/).sticky === 'boolean';
 var hasGroups = 'groups' in (/a/).exec('a');
-// deliberately load-time: es-abstract captures `%Symbol.match%` once, when it is first required, before `es6-shim` runs
 var hasSymbolMatch = hasSymbols && typeof Symbol.match === 'symbol';
 
 // bounded, so a non-global regression reports a diff instead of hanging or throwing past the assertion
@@ -178,6 +181,20 @@ module.exports = function (matchAll, regexMatchAll, t) {
 			s2t.end();
 		});
 
+		st.test('with no flags property at all', { skip: !hasSymbolMatch || !hasFlags }, function (s2t) {
+			var fakeRegex = {};
+			fakeRegex[Symbol.match] = true;
+			fakeRegex.global = true;
+			fakeRegex.source = 'b';
+
+			s2t['throws'](
+				function () { matchAll('abc', fakeRegex); },
+				TypeError,
+				'an absent "flags" property throws, rather than being derived from `global`'
+			);
+			s2t.end();
+		});
+
 		st.test('with a throwing flags getter', { skip: !define.supportsDescriptors }, function (s2t) {
 			var str = 'aabc';
 
@@ -312,6 +329,29 @@ module.exports = function (matchAll, regexMatchAll, t) {
 					inspect(flags) + ': zero-width matches advance by a whole code point'
 				);
 			});
+			s2t.end();
+		});
+
+		st.test('with an inherited "flags" property, lacking `RegExp.prototype.flags`', { skip: hasFlags }, function (s2t) {
+			var Fake = function Fake() {};
+			Fake.prototype.flags = 'g';
+			Fake.prototype.source = 'b';
+			Fake.prototype.lastIndex = 0;
+
+			s2t.deepEqual(
+				matchIndexes(regexMatchAll(new Fake(), 'abcb')),
+				[1, 3],
+				'an inherited "flags" of "g" produces a global matcher'
+			);
+			s2t.end();
+		});
+
+		st.test('without a "flags" property', { skip: !hasFlags }, function (s2t) {
+			s2t['throws'](
+				function () { regexMatchAll({ source: 'b', lastIndex: 0 }, 'abc'); },
+				SyntaxError,
+				'an absent "flags" property stringifies to "undefined", which is not a valid flags string'
+			);
 			s2t.end();
 		});
 

@@ -15,16 +15,22 @@ var $TypeError = require('es-errors/type');
 var isObject = require('es-object-atoms/isObject');
 
 var $indexOf = callBound('String.prototype.indexOf');
+var $hasOwn = callBound('Object.prototype.hasOwnProperty');
 
 var OrigRegExp = GetIntrinsic('%RegExp%');
 
-var supportsConstructingWithFlags = 'flags' in OrigRegExp.prototype;
+var hasFlagsGetter = 'flags' in OrigRegExp.prototype;
+var supportsFlags = hasFlagsGetter && (/a/mig).flags === 'gim';
 
 var constructRegexWithFlags = function constructRegex(C, R) {
 	var matcher;
-	// workaround for older engines that lack RegExp.prototype.flags
-	var flags = ToString('flags' in R ? Get(R, 'flags') : flagsGetter(R));
-	if (supportsConstructingWithFlags) {
+	/*
+	 * workaround for older engines that lack RegExp.prototype.flags, or that have a buggy one:
+	 * with no getter to be fooled by, trust the whole chain; with a broken one, trust only own properties
+	 */
+	var readFlags = supportsFlags || (hasFlagsGetter ? $hasOwn(R, 'flags') : 'flags' in R);
+	var flags = ToString(readFlags ? Get(R, 'flags') : flagsGetter(R));
+	if (hasFlagsGetter) {
 		matcher = new C(R, flags);
 	} else if (C === OrigRegExp) {
 		// workaround for older engines that can not construct a RegExp with flags
