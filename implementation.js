@@ -3,10 +3,13 @@
 var Call = require('es-abstract/2025/Call');
 var Get = require('es-abstract/2025/Get');
 var GetMethod = require('es-abstract/2025/GetMethod');
-var IsRegExp = require('es-abstract/2025/IsRegExp');
-var ToString = require('es-abstract/2025/ToString');
 var isObject = require('es-object-atoms/isObject');
+var IsRegExp = require('es-abstract/2025/IsRegExp');
+var RegExpCreate = require('es-abstract/2025/RegExpCreate');
+var ToString = require('es-abstract/2025/ToString');
+
 var RequireObjectCoercible = require('es-object-atoms/RequireObjectCoercible');
+
 var callBound = require('call-bound');
 var hasSymbols = require('has-symbols')();
 var flagsGetter = require('regexp.prototype.flags');
@@ -62,7 +65,6 @@ module.exports = function matchAll(regexp) {
 	}
 
 	var S = ToString(O);
-	// var rx = RegExpCreate(regexp, 'g');
-	var rx = new $RegExp(regexp, 'g');
+	var rx = RegExpCreate(regexp, 'g');
 	return Call(getMatcher(rx), rx, [S]);
 };

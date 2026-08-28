@@ -9,13 +9,13 @@ var inspect = require('object-inspect');
 var hasSymbols = require('has-symbols')();
 var mockProperty = require('mock-property');
 
+var hasSticky = typeof (/a/).sticky === 'boolean';
+var hasGroups = 'groups' in (/a/).exec('a');
 /*
  * deliberately load-time: these must match what the modules under test saw when *they* were required, before
  * `es6-shim` runs - `supportsFlags` and es-abstract's `%Symbol.match%` are both captured once, at require time.
  */
 var hasFlags = 'flags' in RegExp.prototype;
-var hasSticky = typeof (/a/).sticky === 'boolean';
-var hasGroups = 'groups' in (/a/).exec('a');
 var hasSymbolMatch = hasSymbols && typeof Symbol.match === 'symbol';
 
 // bounded, so a non-global regression reports a diff instead of hanging or throwing past the assertion
@@ -148,6 +148,41 @@ module.exports = function (matchAll, regexMatchAll, t) {
 		st.doesNotThrow(function () { matchAll(str, 'a'); }, 'a string pattern does not consult `String.prototype[Symbol.matchAll]`');
 		st.doesNotThrow(function () { matchAll(str, 2); }, 'a number pattern does not consult `Number.prototype[Symbol.matchAll]`');
 		st.doesNotThrow(function () { matchAll(str, true); }, 'a boolean pattern does not consult `Boolean.prototype[Symbol.matchAll]`');
+
+		st.end();
+	});
+
+	t.test('objects with no matcher are stringified into a new regex', { skip: !hasSymbolMatch || !hasSymbolMatchAll }, function (st) {
+		st.test('a regex whose `Symbol.match` is falsy', function (s2t) {
+			var str = 'a/b/gc';
+			var regex = /b/g;
+			regex[Symbol.match] = false;
+			regex[Symbol.matchAll] = undefined;
+
+			var expectedResults = [
+				{ value: assign(['/b/g'], groups({ index: 1, input: str })), done: false },
+				{ value: undefined, done: true }
+			];
+			testResults(s2t, matchAll(str, regex), expectedResults);
+			s2t.end();
+		});
+
+		st.test('a `Symbol.match`-y object is stringified, not read for "source"', function (s2t) {
+			var str = 'abc';
+			var fakeRegex = {
+				flags: 'g',
+				source: 'b',
+				toString: function () { return 'c'; }
+			};
+			fakeRegex[Symbol.match] = true;
+
+			var expectedResults = [
+				{ value: assign(['c'], groups({ index: 2, input: str })), done: false },
+				{ value: undefined, done: true }
+			];
+			testResults(s2t, matchAll(str, fakeRegex), expectedResults);
+			s2t.end();
+		});
 
 		st.end();
 	});

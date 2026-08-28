@@ -24,6 +24,7 @@
 				"Invoke",
 				"IsRegExp",
 				"OrdinaryObjectCreate",
+				"RegExpCreate",
 				"RegExpExec",
 				"RequireObjectCoercible",
 				"Set",
