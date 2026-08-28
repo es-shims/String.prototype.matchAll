@@ -52,7 +52,7 @@ var regexMatchAll = setFunctionName(function SymbolMatchAll(string) {
 	var lastIndex = ToLength(Get(R, 'lastIndex'));
 	Set(matcher, 'lastIndex', lastIndex, true);
 	var global = $indexOf(flags, 'g') > -1;
-	var fullUnicode = $indexOf(flags, 'u') > -1;
+	var fullUnicode = $indexOf(flags, 'u') > -1 || $indexOf(flags, 'v') > -1;
 	return CreateRegExpStringIterator(matcher, S, global, fullUnicode);
 }, '[Symbol.matchAll]', true);
 

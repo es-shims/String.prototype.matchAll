@@ -13,6 +13,19 @@ var hasSticky = typeof (/a/).sticky === 'boolean';
 var hasGroups = 'groups' in (/a/).exec('a');
 var hasSymbolMatch = hasSymbols && typeof Symbol.match === 'symbol';
 
+// bounded, so a non-global regression reports a diff instead of hanging or throwing past the assertion
+var matchIndexes = function matchIndexes(iterator, max) {
+	var indexes = [];
+	var result;
+	var i = 0;
+	do {
+		result = iterator.next();
+		if (!result.done) { indexes.push(result.value.index); }
+		i += 1;
+	} while (!result.done && i < (max || 6));
+	return indexes;
+};
+
 var groups = function groups(matchObject) {
 	return hasGroups ? assign(matchObject, { groups: matchObject.groups }, matchObject) : matchObject;
 };
@@ -55,6 +68,8 @@ var testResults = function (t, iterator, expectedResults, item) {
 };
 
 module.exports = function (matchAll, regexMatchAll, t) {
+	var hasUnicodeSets = 'unicodeSets' in RegExp.prototype;
+
 	t.test('non-regexes', function (st) {
 		var notRegexes = [
 			[null, [{ value: undefined, done: true }]],
@@ -267,6 +282,18 @@ module.exports = function (matchAll, regexMatchAll, t) {
 				{ value: undefined, done: true }
 			];
 			testResults(s2t, iterator, expectedResults);
+			s2t.end();
+		});
+
+		st.test('treats the `v` flag as full unicode', { skip: !hasUnicodeSets }, function (s2t) {
+			var str = 'a😀b';
+			forEach(['gu', 'gv'], function (flags) {
+				s2t.deepEqual(
+					matchIndexes(regexMatchAll(new RegExp('(?:)', flags), str)),
+					[0, 1, 3, 4],
+					inspect(flags) + ': zero-width matches advance by a whole code point'
+				);
+			});
 			s2t.end();
 		});
 
